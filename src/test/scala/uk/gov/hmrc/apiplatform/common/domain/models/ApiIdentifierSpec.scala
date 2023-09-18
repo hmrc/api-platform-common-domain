@@ -32,8 +32,12 @@ class ApiIdentifierSpec extends BaseJsonFormattersSpec {
       example.toString() shouldBe "ApiIdentifier(misc/blah,1.5)"
     }
 
-    "read from Json" in {
+    "read from Json with version" in {
       testFromJson[ApiIdentifier]("""{"context":"misc/blah","version":"1.5"}""")(example)
+    }
+
+    "read from Json with version number" in {
+      testFromJson[ApiIdentifier]("""{"context":"misc/blah","versionNbr":"1.5"}""")(example)
     }
 
     "write to Json" in {
@@ -44,7 +48,7 @@ class ApiIdentifierSpec extends BaseJsonFormattersSpec {
     }
 
     "sort accordingly" in {
-      val sorted = List(example.copy(context = ApiContext("angel")), example, example.copy(version = ApiVersionNbr("2.0")), example.copy(context = ApiContext("zoom")))
+      val sorted = List(example.copy(context = ApiContext("angel")), example, example.copy(versionNbr = ApiVersionNbr("2.0")), example.copy(context = ApiContext("zoom")))
 
       val unsorted = Random.shuffle(sorted)
 

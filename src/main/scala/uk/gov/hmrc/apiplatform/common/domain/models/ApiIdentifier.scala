@@ -16,19 +16,33 @@
 
 package uk.gov.hmrc.apiplatform.common.domain.models
 
-import play.api.libs.json.Json
-
-final case class ApiIdentifier(context: ApiContext, version: ApiVersionNbr) {
-  def asText(separator: String): String = s"${context.value}$separator${version.value}"
+final case class ApiIdentifier(context: ApiContext, versionNbr: ApiVersionNbr) {
+  def asText(separator: String): String = s"${context.value}$separator${versionNbr.value}"
 }
 
 object ApiIdentifier {
-  implicit val apiIdentifierFormat = Json.format[ApiIdentifier]
-  
+  import play.api.libs.json._
+  import play.api.libs.functional.syntax._
+
+  private val readsApiIdentifier: Reads[ApiIdentifier] = (
+    (JsPath \ "context").read[ApiContext] and
+      (
+        (JsPath \ "version").read[ApiVersionNbr] or   // Existing field name
+        (JsPath \ "versionNbr").read[ApiVersionNbr]   // Future aim to be this field name
+      )
+    )(ApiIdentifier.apply _)
+
+  private val writesApiIdentifier: OWrites[ApiIdentifier] = (
+  (JsPath \ "context").write[ApiContext] and
+    (JsPath \ "version").write[ApiVersionNbr]         // TODO - change to versionNbr once all readers are safe
+  )(unlift(ApiIdentifier.unapply))
+
+  implicit val formatApiIdentifier = OFormat[ApiIdentifier](readsApiIdentifier, writesApiIdentifier)
+
 // $COVERAGE-OFF$
   def random = ApiIdentifier(ApiContext.random, ApiVersionNbr.random)
 // $COVERAGE-ON$
 
 
-  implicit val ordering: Ordering[ApiIdentifier] = Ordering.by[ApiIdentifier, String](_.context.value).orElseBy(_.version.value)
+  implicit val ordering: Ordering[ApiIdentifier] = Ordering.by[ApiIdentifier, String](_.context.value).orElseBy(_.versionNbr.value)
 }
