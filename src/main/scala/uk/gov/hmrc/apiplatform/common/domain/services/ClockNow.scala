@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.common.domain.services
+package uk.gov.hmrc.apiplatform.common.domain.services
 
 import java.time.temporal.ChronoUnit
 import java.time.{Clock, Instant, LocalDateTime}

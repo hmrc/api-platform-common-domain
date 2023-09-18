@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.common.domain.services
+package uk.gov.hmrc.apiplatform.common.domain.services
 
 import java.time.temporal.{ChronoField, ChronoUnit}
 import java.time.{Clock, Instant, LocalDateTime, ZoneOffset}
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.HmrcSpec
+import uk.gov.hmrc.apiplatform.common.utils.HmrcSpec
 
 class ClockNowSpec extends HmrcSpec {
   import ZoneOffset.UTC

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.apis.domain.models
+package uk.gov.hmrc.apiplatform.common.domain.models
 
 import scala.util.Random
 
 import play.api.libs.json._
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
+import uk.gov.hmrc.apiplatform.common.utils.BaseJsonFormattersSpec
 
 class ApiVersionNbrSpec extends BaseJsonFormattersSpec {
 
@@ -28,7 +28,7 @@ class ApiVersionNbrSpec extends BaseJsonFormattersSpec {
     val example = ApiVersionNbr("1.5")
 
     "sort accordingly" in {
-      val sorted = List("1.0", "1.1", "2.0", "2.1", "3")
+      val sorted = List("1.0", "1.1", "2.0", "2.1", "3", "10", "10.1")
 
       val unsorted = Random.shuffle(sorted)
 

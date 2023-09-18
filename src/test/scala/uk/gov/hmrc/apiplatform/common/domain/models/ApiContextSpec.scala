@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.apis.domain.models
+package uk.gov.hmrc.apiplatform.common.domain.models
 
 import scala.util.Random
 
 import play.api.libs.json._
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
+import uk.gov.hmrc.apiplatform.common.utils.BaseJsonFormattersSpec
 
 class ApiContextSpec extends BaseJsonFormattersSpec {
 

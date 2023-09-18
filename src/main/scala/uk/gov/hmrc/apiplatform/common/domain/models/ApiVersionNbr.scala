@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.apis.domain.models
+package uk.gov.hmrc.apiplatform.common.domain.models
 
 import scala.util.Random
 
@@ -27,9 +27,7 @@ final case class ApiVersionNbr(value: String) extends AnyVal {
 object ApiVersionNbr {
   implicit val formatApiVersionNbr = Json.valueFormat[ApiVersionNbr]
 
-  implicit val ordering: Ordering[ApiVersionNbr] = new Ordering[ApiVersionNbr] {
-    override def compare(x: ApiVersionNbr, y: ApiVersionNbr): Int = x.value.compareTo(y.value)
-  }
+  implicit val ordering: Ordering[ApiVersionNbr] = Ordering.by[ApiVersionNbr, String](_.value)
 
   /** Produces a version from 0-999 . 0-999
     */

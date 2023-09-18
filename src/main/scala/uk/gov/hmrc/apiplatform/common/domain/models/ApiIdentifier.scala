@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.apis.domain.models
+package uk.gov.hmrc.apiplatform.common.domain.models
 
 import play.api.libs.json.Json
 
@@ -24,18 +24,11 @@ final case class ApiIdentifier(context: ApiContext, version: ApiVersionNbr) {
 
 object ApiIdentifier {
   implicit val apiIdentifierFormat = Json.format[ApiIdentifier]
-
+  
+// $COVERAGE-OFF$
   def random = ApiIdentifier(ApiContext.random, ApiVersionNbr.random)
+// $COVERAGE-ON$
 
-  // When we drop 2.12 support we can use : -
-  // Ordering.by[ApiIdentifier, String](_.context.value)
-  //  .orElseBy(_.versionNbr.value)
 
-  implicit val ordering: Ordering[ApiIdentifier] = new Ordering[ApiIdentifier] {
-
-    override def compare(x: ApiIdentifier, y: ApiIdentifier): Int = Ordering.Tuple2[ApiContext, ApiVersionNbr].compare(
-      (x.context, x.version),
-      (y.context, y.version)
-    )
-  }
+  implicit val ordering: Ordering[ApiIdentifier] = Ordering.by[ApiIdentifier, String](_.context.value).orElseBy(_.version.value)
 }

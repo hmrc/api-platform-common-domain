@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.apis.domain.models
+package uk.gov.hmrc.apiplatform.common.domain.models
 
 import scala.util.Random
 
@@ -32,9 +32,7 @@ final case class ApiContext(value: String) extends AnyVal {
 object ApiContext {
   implicit val formatApiContext = Json.valueFormat[ApiContext]
 
-  implicit val ordering: Ordering[ApiContext] = new Ordering[ApiContext] {
-    override def compare(x: ApiContext, y: ApiContext): Int = x.value.compareTo(y.value)
-  }
+  implicit val ordering: Ordering[ApiContext] = Ordering.by[ApiContext, String](_.value)
 
   def random = ApiContext(Random.alphanumeric.take(10).mkString)
 }
