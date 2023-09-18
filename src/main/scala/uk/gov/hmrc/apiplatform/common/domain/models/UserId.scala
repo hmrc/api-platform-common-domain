@@ -16,25 +16,31 @@
 
 package uk.gov.hmrc.apiplatform.common.domain.models
 
-import scala.util.Random
+import java.{util => ju}
+import scala.util.control.NonFatal
 
-import play.api.libs.json._
-
-final case class ApiContext(value: String) extends AnyVal {
-
-  def segments(): Array[String] = value.split("/")
-
-  def topLevelContext(): ApiContext = ApiContext(segments().head)
-
-  override def toString(): String = value
+case class UserId(value: ju.UUID) extends AnyVal {
+  override def toString(): String = value.toString
 }
 
-object ApiContext {
-  implicit val formatApiContext: Format[ApiContext] = Json.valueFormat[ApiContext]
+object UserId {
+  import play.api.libs.json.Json
 
-  implicit val ordering: Ordering[ApiContext] = Ordering.by[ApiContext, String](_.value)
+  implicit val formatUserId = Json.valueFormat[UserId]
+
+  def apply(raw: String): Option[UserId] = {
+    try {
+      Some(UserId(ju.UUID.fromString(raw)))
+    } catch {
+      case NonFatal(e) => None
+    }
+  }
+
+  def unsafeApply(raw: String): UserId = {
+    UserId(ju.UUID.fromString(raw))
+  }
 
 // $COVERAGE-OFF$
-  def random: ApiContext = ApiContext(Random.alphanumeric.take(10).mkString)
+  def random: UserId = UserId(ju.UUID.randomUUID())
 // $COVERAGE-ON$
 }

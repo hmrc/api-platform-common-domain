@@ -18,14 +18,14 @@ package uk.gov.hmrc.apiplatform.common.domain.models
 
 import scala.util.Random
 
-import play.api.libs.json.Json
+import play.api.libs.json._
 
 final case class ApiVersionNbr(value: String) extends AnyVal {
   override def toString(): String = value
 }
 
 object ApiVersionNbr {
-  implicit val formatApiVersionNbr = Json.valueFormat[ApiVersionNbr]
+  implicit val formatApiVersionNbr: Format[ApiVersionNbr] = Json.valueFormat[ApiVersionNbr]
 
   implicit val ordering: Ordering[ApiVersionNbr] = new Ordering[ApiVersionNbr] {
     override def compare(x: ApiVersionNbr, y: ApiVersionNbr): Int = {
@@ -51,12 +51,15 @@ object ApiVersionNbr {
     }
   }
 
+
   /** Produces a version from 0-999 . 0-999
     */
-  def random = {
+// $COVERAGE-OFF$
+  def random: ApiVersionNbr = {
     val major          = Random.nextInt(1000)
     val minor          = Random.nextInt(1000)
     val minorFormatted = f"$minor%3d".stripPrefix(" ").stripPrefix(" ")
     ApiVersionNbr(s"${major.toString}.$minorFormatted")
   }
+// $COVERAGE-ON$
 }

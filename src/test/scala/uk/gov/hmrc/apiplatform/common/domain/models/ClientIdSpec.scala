@@ -16,25 +16,23 @@
 
 package uk.gov.hmrc.apiplatform.common.domain.models
 
-import scala.util.Random
+import play.api.libs.json.{JsString, Json}
 
-import play.api.libs.json._
+import uk.gov.hmrc.apiplatform.common.utils.BaseJsonFormattersSpec
 
-final case class ApiContext(value: String) extends AnyVal {
+class ClientIdSpec extends BaseJsonFormattersSpec {
+  val aClientId = ClientId.random
+  "ClientId" should {
+    "toString works" in {
+      aClientId.toString() shouldBe aClientId.value
+    }
 
-  def segments(): Array[String] = value.split("/")
+    "convert to json" in {
+      Json.toJson(aClientId) shouldBe JsString(aClientId.value.toString())
+    }
 
-  def topLevelContext(): ApiContext = ApiContext(segments().head)
-
-  override def toString(): String = value
-}
-
-object ApiContext {
-  implicit val formatApiContext: Format[ApiContext] = Json.valueFormat[ApiContext]
-
-  implicit val ordering: Ordering[ApiContext] = Ordering.by[ApiContext, String](_.value)
-
-// $COVERAGE-OFF$
-  def random: ApiContext = ApiContext(Random.alphanumeric.take(10).mkString)
-// $COVERAGE-ON$
+    "read from json" in {
+      testFromJson[ClientId](s""""${aClientId.value.toString}"""")(aClientId)
+    }
+  }
 }

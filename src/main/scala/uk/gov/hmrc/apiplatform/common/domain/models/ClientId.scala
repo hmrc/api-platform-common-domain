@@ -18,23 +18,16 @@ package uk.gov.hmrc.apiplatform.common.domain.models
 
 import scala.util.Random
 
-import play.api.libs.json._
-
-final case class ApiContext(value: String) extends AnyVal {
-
-  def segments(): Array[String] = value.split("/")
-
-  def topLevelContext(): ApiContext = ApiContext(segments().head)
-
+case class ClientId(value: String) extends AnyVal {
   override def toString(): String = value
 }
 
-object ApiContext {
-  implicit val formatApiContext: Format[ApiContext] = Json.valueFormat[ApiContext]
+object ClientId {
+  import play.api.libs.json.Json
 
-  implicit val ordering: Ordering[ApiContext] = Ordering.by[ApiContext, String](_.value)
+  implicit val formatClientId = Json.valueFormat[ClientId]
 
 // $COVERAGE-OFF$
-  def random: ApiContext = ApiContext(Random.alphanumeric.take(10).mkString)
+  def random: ClientId = ClientId(Random.alphanumeric.take(28).mkString)
 // $COVERAGE-ON$
 }
