@@ -27,7 +27,29 @@ final case class ApiVersionNbr(value: String) extends AnyVal {
 object ApiVersionNbr {
   implicit val formatApiVersionNbr = Json.valueFormat[ApiVersionNbr]
 
-  implicit val ordering: Ordering[ApiVersionNbr] = Ordering.by[ApiVersionNbr, String](_.value)
+  implicit val ordering: Ordering[ApiVersionNbr] = new Ordering[ApiVersionNbr] {
+    override def compare(x: ApiVersionNbr, y: ApiVersionNbr): Int = {
+      def asInt(versionNbr: ApiVersionNbr, portion: Int): Int = try {
+        versionNbr.value.split('.')
+          .applyOrElse[Int, String](portion, _ => "")
+          .takeWhile(c => Character.isDigit(c))
+          .toInt
+        } catch { 
+          case e: NumberFormatException => Integer.MIN_VALUE
+        }
+      val splitXMajor = asInt(x, 0)
+      val splitYMajor = asInt(y, 0)
+      val compareMajor = splitXMajor.compare(splitYMajor)
+
+      if(compareMajor == 0) {
+        val splitXMinor = asInt(x, 1)
+        val splitYMinor = asInt(y, 1)
+        splitXMinor.compare(splitYMinor)
+      } else {
+        compareMajor
+      }
+    }
+  }
 
   /** Produces a version from 0-999 . 0-999
     */

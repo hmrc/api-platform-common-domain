@@ -19,14 +19,14 @@ package uk.gov.hmrc.apiplatform.common.domain.models
 import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.common.utils.BaseJsonFormattersSpec
+import scala.util.Random
 
 class ApiIdentifierSpec extends BaseJsonFormattersSpec {
 
-  "ApiIdentfier" should {
+  "ApiIdentifier" should {
     val exampleVersionNbr = ApiVersionNbr("1.5")
     val exampleContext = ApiContext("misc/blah")
     val example = ApiIdentifier(exampleContext, exampleVersionNbr)
-
 
     "convert toString" in {
       example.toString() shouldBe "ApiIdentifier(misc/blah,1.5)"
@@ -43,6 +43,12 @@ class ApiIdentifierSpec extends BaseJsonFormattersSpec {
       )
     }
 
+    "sort accordingly" in {
+      val sorted = List(example.copy(context = ApiContext("angel")), example, example.copy(version = ApiVersionNbr("2.0")), example.copy(context = ApiContext("zoom")))
 
+      val unsorted = Random.shuffle(sorted)
+
+      unsorted.sorted shouldBe sorted
+    }
   }
 }
