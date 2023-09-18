@@ -16,24 +16,23 @@
 
 package uk.gov.hmrc.apiplatform.common.domain.services
 
-import java.time.temporal.ChronoUnit
-import java.time.{Clock, Instant, LocalDateTime}
+import java.time.{Duration, Instant}
+import scala.concurrent.{ExecutionContext, Future}
 
-trait ClockNow {
+import uk.gov.hmrc.apiplatform.common.domain.services.ClockNow
 
-  implicit class LocalDateTimeTruncateSyntax(me: LocalDateTime) {
-    def truncate() = me.truncatedTo(ChronoUnit.MILLIS)
+trait FutureTimer {
+  self: ClockNow =>
+
+  def timeThisFuture[T](f: => Future[T])(implicit ec: ExecutionContext): Future[TimedValue[T]] = {
+    println("Starting timer")
+    val startTime: Instant = precise()
+
+    f.map(value => {
+      println("Mapping")
+      val endTime: Instant = precise()
+      val duration         = Duration.between(startTime, endTime)
+      TimedValue(value, duration)
+    })
   }
-
-  implicit class InstantTruncateSyntax(me: Instant) {
-    def truncate() = me.truncatedTo(ChronoUnit.MILLIS)
-  }
-
-  def precise(): Instant = Instant.now(clock)
-
-  def now(): LocalDateTime = LocalDateTime.now(clock).truncate()
-
-  def instant(): Instant = Instant.now(clock).truncate()
-
-  def clock: Clock
 }

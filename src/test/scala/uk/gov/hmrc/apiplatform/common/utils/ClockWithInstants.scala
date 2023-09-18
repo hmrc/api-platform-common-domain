@@ -14,26 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.common.domain.services
+package uk.gov.hmrc.apiplatform.modules.common.services
 
-import java.time.temporal.ChronoUnit
-import java.time.{Clock, Instant, LocalDateTime}
+import java.time.Instant
+import scala.collection.mutable.Queue
 
-trait ClockNow {
+import uk.gov.hmrc.apiplatform.common.domain.services.ClockNow
+import uk.gov.hmrc.apiplatform.common.utils.FixedClock
 
-  implicit class LocalDateTimeTruncateSyntax(me: LocalDateTime) {
-    def truncate() = me.truncatedTo(ChronoUnit.MILLIS)
+class ClockWithInstants(instants: Queue[Instant]) extends ClockNow {
+  val clock = FixedClock.clock
+
+  override def precise(): Instant = {
+    instants.dequeue()
   }
-
-  implicit class InstantTruncateSyntax(me: Instant) {
-    def truncate() = me.truncatedTo(ChronoUnit.MILLIS)
-  }
-
-  def precise(): Instant = Instant.now(clock)
-
-  def now(): LocalDateTime = LocalDateTime.now(clock).truncate()
-
-  def instant(): Instant = Instant.now(clock).truncate()
-
-  def clock: Clock
 }
