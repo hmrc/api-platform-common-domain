@@ -34,7 +34,7 @@ object ApiVersionNbr {
           .applyOrElse[Int, String](portion, _ => "")
           .takeWhile(c => Character.isDigit(c))
           .toInt
-        } catch { 
+        } catch {
           case e: NumberFormatException => Integer.MIN_VALUE
         }
       val splitXMajor = asInt(x, 0)

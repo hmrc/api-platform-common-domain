@@ -31,6 +31,8 @@ final case class ApiContext(value: String) extends AnyVal {
 
 object ApiContext {
   implicit val formatApiContext: Format[ApiContext] = Json.valueFormat[ApiContext]
+  implicit val keyReadsApiContext: KeyReads[ApiContext]   = key => JsSuccess(ApiContext(key))
+  implicit val keyWritesApiContext: KeyWrites[ApiContext] = _.value
 
   implicit val ordering: Ordering[ApiContext] = Ordering.by[ApiContext, String](_.value)
 

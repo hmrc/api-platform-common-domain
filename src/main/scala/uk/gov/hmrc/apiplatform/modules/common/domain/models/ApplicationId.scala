@@ -25,7 +25,7 @@ final case class ApplicationId(value: ju.UUID) extends AnyVal {
 
 object ApplicationId {
   import play.api.libs.json.{Json, Format}
-  
+
   def apply(raw: String): Option[ApplicationId] = {
     try {
       Some(ApplicationId(ju.UUID.fromString(raw)))
@@ -40,7 +40,7 @@ object ApplicationId {
 
   implicit val formatApplicationId: Format[ApplicationId] = Json.valueFormat[ApplicationId]
 
-// $COVERAGE-OFF$  
+// $COVERAGE-OFF$
   def random: ApplicationId = ApplicationId(ju.UUID.randomUUID)
 // $COVERAGE-ON$
 }
