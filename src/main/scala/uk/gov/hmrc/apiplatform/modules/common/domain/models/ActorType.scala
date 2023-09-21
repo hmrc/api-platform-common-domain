@@ -51,13 +51,6 @@ object ActorType {
 
   implicit val formatActorType: Format[ActorType] = SealedTraitJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_))
 
-  /*
-   * Used for display purposes
-   */
-  private val fromDisplayText: Map[String, ActorType] = values.map(at => at.displayText -> at).toMap
-
-  def applyDisplayText(text: String): Option[ActorType] = fromDisplayText.get(text)
-
   def actorType(a: Actor): ActorType = a match {
     case _: Actors.GatekeeperUser  => GATEKEEPER
     case _: Actors.AppCollaborator => COLLABORATOR

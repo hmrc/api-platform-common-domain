@@ -20,9 +20,9 @@ import java.time.{Instant, LocalDateTime, ZoneOffset}
 
 import play.api.libs.json._
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.{BaseJsonFormattersSpec, HmrcSpec}
+import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class InstantJsonFormattersSpec extends HmrcSpec with BaseJsonFormattersSpec {
+class InstantJsonFormattersSpec extends BaseJsonFormattersSpec {
 
   "InstantJsonFormatters" should {
 

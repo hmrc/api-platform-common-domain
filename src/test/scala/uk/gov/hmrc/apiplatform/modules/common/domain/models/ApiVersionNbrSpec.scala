@@ -53,5 +53,15 @@ class ApiVersionNbrSpec extends BaseJsonFormattersSpec {
       Json.toJson[ApiVersionNbr](example) shouldBe JsString("1.5")
     }
 
+    val rawText                         = """{"version1":"text1","version2":"text2"}"""
+    val map: Map[ApiVersionNbr, String] = Map((ApiVersionNbr("version1") -> "text1"), (ApiVersionNbr("version2") -> "text2"))
+
+    "key read from Json" in {
+      testFromJson[Map[ApiVersionNbr, String]](rawText)(map)
+    }
+
+    "key write to Json" in {
+      Json.toJson[Map[ApiVersionNbr, String]](map).toString() shouldBe rawText
+    }
   }
 }
