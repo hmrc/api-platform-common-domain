@@ -17,7 +17,9 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import org.scalatest.OptionValues
+
 import play.api.libs.json._
+
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
 class ActorSpec extends BaseJsonFormattersSpec with OptionValues {

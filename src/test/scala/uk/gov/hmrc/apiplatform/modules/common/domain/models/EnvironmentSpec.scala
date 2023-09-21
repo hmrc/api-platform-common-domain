@@ -80,7 +80,7 @@ class EnvironmentSpec extends BaseJsonFormattersSpec with TableDrivenPropertyChe
         testFromJson[Environment](s""" "123" """)(Environment.PRODUCTION)
       }.getMessage() should include("123 is not a valid Environment")
     }
-   
+
     "read with error from Json" in {
       intercept[Exception] {
         testFromJson[Environment](s"""123""")(Environment.PRODUCTION)

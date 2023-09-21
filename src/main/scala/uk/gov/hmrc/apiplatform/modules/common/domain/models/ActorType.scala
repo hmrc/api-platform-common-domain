@@ -35,10 +35,10 @@ object ActorType {
   val values: Set[ActorType] = Set(COLLABORATOR, GATEKEEPER, SCHEDULED_JOB, UNKNOWN)
 
   val displayText: ActorType => String = _ match {
-    case COLLABORATOR => "Application Collaborator"
-    case GATEKEEPER => "Gatekeeper User"
+    case COLLABORATOR  => "Application Collaborator"
+    case GATEKEEPER    => "Gatekeeper User"
     case SCHEDULED_JOB => "Scheduled Job"
-    case UNKNOWN =>"Unknown"
+    case UNKNOWN       => "Unknown"
   }
 
   def apply(text: String): Option[ActorType] = ActorType.values.find(_.toString == text.toUpperCase)

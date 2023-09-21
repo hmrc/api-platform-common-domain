@@ -16,9 +16,10 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.services
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.HmrcSpec
 import java.time.temporal.{ChronoField, ChronoUnit}
 import java.time.{Clock, Instant, LocalDateTime, ZoneOffset}
+
+import uk.gov.hmrc.apiplatform.modules.common.utils.HmrcSpec
 
 class ClockNowSpec extends HmrcSpec {
   import ZoneOffset.UTC

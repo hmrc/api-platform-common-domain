@@ -17,6 +17,7 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import play.api.libs.json.{JsString, Json}
+
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
 class ClientIdSpec extends BaseJsonFormattersSpec {

@@ -18,9 +18,11 @@ package uk.gov.hmrc.apiplatform.modules.common.services
 
 import java.time.Instant
 import scala.collection.mutable.Queue
+
 import org.scalatest.Inside
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+
 import uk.gov.hmrc.apiplatform.modules.common.utils.{ClockWithInstants, FixedClock}
 
 class SimpleTimerSpec extends AnyWordSpec with Matchers with Inside {

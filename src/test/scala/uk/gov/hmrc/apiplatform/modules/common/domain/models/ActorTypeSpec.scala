@@ -16,11 +16,14 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
+
 import play.api.libs.json._
 
+import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
+
 class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyChecks {
+
   val values =
     Table(
       ("Source", "text", "display text"),
@@ -79,7 +82,7 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
         testFromJson[ActorType](s""" "123" """)(ActorType.UNKNOWN)
       }.getMessage() should include("123 is not a valid Actor Type")
     }
-   
+
     "read with error from Json" in {
       intercept[Exception] {
         testFromJson[ActorType](s"""123""")(ActorType.UNKNOWN)
