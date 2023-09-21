@@ -52,20 +52,18 @@ object Actors {
 object Actor {
   import play.api.libs.json._
   import uk.gov.hmrc.play.json.Union
+  import play.api.libs.functional.syntax._
+  import play.api.libs.json.Reads._
+
+  implicit val actorsUnknownJF: OFormat[Actors.Unknown.type]              = Json.format[Actors.Unknown.type]
 
   implicit val actorsCollaboratorWrites: OWrites[Actors.AppCollaborator]  = Json.writes[Actors.AppCollaborator]
   implicit val actorsGatekeeperUserWrites: OWrites[Actors.GatekeeperUser] = Json.writes[Actors.GatekeeperUser]
   implicit val actorsScheduledJobWrites: OWrites[Actors.ScheduledJob]     = Json.writes[Actors.ScheduledJob]
 
-  import play.api.libs.functional.syntax._
-  import play.api.libs.json.Reads._
-
-  implicit val actorsCollaboratorReads: Reads[Actors.AppCollaborator]  =
-    ((JsPath \ "id").read[String] or (JsPath \ "email").read[String]).map(s => Actors.AppCollaborator(LaxEmailAddress(s)))
+  implicit val actorsCollaboratorReads: Reads[Actors.AppCollaborator]  = ((JsPath \ "id").read[String] or (JsPath \ "email").read[String]).map(s => Actors.AppCollaborator(LaxEmailAddress(s)))
   implicit val actorsGatekeeperUserReads: Reads[Actors.GatekeeperUser] = ((JsPath \ "id").read[String] or (JsPath \ "user").read[String]).map(Actors.GatekeeperUser(_))
   implicit val actorsScheduledJobReads: Reads[Actors.ScheduledJob]     = ((JsPath \ "id").read[String] or (JsPath \ "jobId").read[String]).map(Actors.ScheduledJob(_))
-
-  implicit val actorsUnknownJF: OFormat[Actors.Unknown.type] = Json.format[Actors.Unknown.type]
 
   implicit val formatNewStyleActor: OFormat[Actor] = Union.from[Actor]("actorType")
     .and[Actors.AppCollaborator](ActorType.COLLABORATOR.toString)
