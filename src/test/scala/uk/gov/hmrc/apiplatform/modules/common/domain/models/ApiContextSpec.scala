@@ -53,6 +53,17 @@ class ApiContextSpec extends BaseJsonFormattersSpec {
       Json.toJson[ApiContext](example) shouldBe JsString("misc/blah")
     }
 
+    val rawText                      = """{"context1":"text1","context2":"text2"}"""
+    val map: Map[ApiContext, String] = Map((ApiContext("context1") -> "text1"), (ApiContext("context2") -> "text2"))
+
+    "key read from Json" in {
+      testFromJson[Map[ApiContext, String]](rawText)(map)
+    }
+
+    "key write to Json" in {
+      Json.toJson[Map[ApiContext, String]](map).toString() shouldBe rawText
+    }
+
     "order correctly" in {
       val contexts = List("a", "b", "c").map(ApiContext(_))
 

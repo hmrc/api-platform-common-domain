@@ -4,9 +4,9 @@ object LibraryDependencies {
   def apply() = compileDependencies ++ testDependencies
 
   lazy val compileDependencies = Seq(
-    "com.typesafe.play"       %% "play-json"                      % "2.9.2",
+    "com.typesafe.play"       %% "play-json"                      % "2.9.3",
     "uk.gov.hmrc"             %% "play-json-union-formatter"      % "1.18.0-play-28",
-    "org.typelevel"           %% "cats-core"                      % "2.9.0"
+    "org.typelevel"           %% "cats-core"                      % "2.10.0"
   )
 
   lazy val testDependencies = Seq(

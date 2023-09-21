@@ -22,13 +22,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-import org.scalatest.Inside
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
+import uk.gov.hmrc.apiplatform.modules.common.utils.{ClockWithInstants, FixedClock, HmrcSpec}
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.{ClockWithInstants, FixedClock}
-
-class FutureTimerSpec extends AnyWordSpec with Matchers with Inside {
+class FutureTimerSpec extends HmrcSpec {
 
   class FakedClockTimer(instants: Queue[Instant]) extends ClockWithInstants(instants) with FutureTimer
 

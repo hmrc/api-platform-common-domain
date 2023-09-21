@@ -16,12 +16,9 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.utils
 
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
-
 import play.api.libs.json._
 
-trait BaseJsonFormattersSpec extends AnyWordSpec with Matchers {
+trait BaseJsonFormattersSpec extends HmrcSpec {
 
   def testToJson[T](in: T)(fields: (String, String)*)(implicit wrt: Writes[T]) = {
     val f: Seq[(String, JsValue)] = fields.map { case (k, v) => (k -> JsString(v)) }
