@@ -17,11 +17,12 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import play.api.libs.json._
+
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
 class UserIdSpec extends BaseJsonFormattersSpec {
   val aUserId = UserId.random
-  
+
   "UserId" should {
     "toString" in {
       aUserId.toString() shouldBe aUserId.value.toString()

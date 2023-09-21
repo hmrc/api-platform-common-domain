@@ -16,17 +16,18 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import play.api.libs.json._
-import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
-
 import scala.util.Random
+
+import play.api.libs.json._
+
+import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
 class ApiIdentifierSpec extends BaseJsonFormattersSpec {
 
   "ApiIdentifier" should {
     val exampleVersionNbr = ApiVersionNbr("1.5")
-    val exampleContext = ApiContext("misc/blah")
-    val example = ApiIdentifier(exampleContext, exampleVersionNbr)
+    val exampleContext    = ApiContext("misc/blah")
+    val example           = ApiIdentifier(exampleContext, exampleVersionNbr)
 
     "convert toString" in {
       example.toString() shouldBe "ApiIdentifier(misc/blah,1.5)"

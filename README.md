@@ -1,7 +1,7 @@
 
 # api-platform-common-domain
 
-This is a placeholder README.md for a new repository
+This library contains those types common to by api-platform-api-domain and api-platform-application-domain
 
 ### License
 

@@ -16,9 +16,10 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.utils
 
-import uk.gov.hmrc.apiplatform.modules.common.services.ClockNow
 import java.time.Instant
 import scala.collection.mutable.Queue
+
+import uk.gov.hmrc.apiplatform.modules.common.services.ClockNow
 
 class ClockWithInstants(instants: Queue[Instant]) extends ClockNow {
   val clock = FixedClock.clock

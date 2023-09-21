@@ -24,7 +24,7 @@ final case class ApplicationId(value: ju.UUID) extends AnyVal {
 }
 
 object ApplicationId {
-  import play.api.libs.json.{Json, Format}
+  import play.api.libs.json.{Format, Json}
 
   def apply(raw: String): Option[ApplicationId] = {
     try {

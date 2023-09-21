@@ -19,9 +19,9 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 import uk.gov.hmrc.apiplatform.modules.common.domain.services.SealedTraitJsonFormatting
 
 sealed trait Environment {
-  final lazy val isSandbox: Boolean = this == Environment.SANDBOX
-  final lazy val isProduction: Boolean = ! isSandbox
-  final lazy val displayText: String = Environment.displayText(this)
+  final lazy val isSandbox: Boolean    = this == Environment.SANDBOX
+  final lazy val isProduction: Boolean = !isSandbox
+  final lazy val displayText: String   = Environment.displayText(this)
 }
 
 object Environment {
@@ -34,13 +34,13 @@ object Environment {
 
   val displayText: Environment => String = _ match {
     case PRODUCTION => "Production"
-    case _ => "Sandbox"
+    case _          => "Sandbox"
   }
 
   def apply(text: String): Option[Environment] = text.toUpperCase match {
-    case "PRODUCTION"    => PRODUCTION.some
-    case "SANDBOX"     => SANDBOX.some
-    case _         => None
+    case "PRODUCTION" => PRODUCTION.some
+    case "SANDBOX"    => SANDBOX.some
+    case _            => None
   }
 
   def unsafeApply(text: String): Environment = {
