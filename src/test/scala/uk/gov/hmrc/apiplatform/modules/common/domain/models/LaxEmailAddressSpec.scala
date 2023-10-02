@@ -16,11 +16,12 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
+import scala.util.Random
+
 import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
-import scala.util.Random
 
 class LaxEmailAddressSpec extends BaseJsonFormattersSpec {
 

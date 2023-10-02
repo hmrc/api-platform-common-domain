@@ -16,16 +16,18 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
-import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
-import play.api.libs.json._
 import cats.data.{NonEmptyChain => NEC}
+
+import play.api.libs.json._
+
+import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
 class NonEmptyChainFormatterSpec extends BaseJsonFormattersSpec {
   import NonEmptyChainFormatters._
 
   "NonEmptyChainFormatter" should {
 
-    val sample = NEC.apply("a","b","c")
+    val sample = NEC.apply("a", "b", "c")
 
     "writing json" in {
       Json.toJson(sample) shouldBe JsArray(Seq(JsString("a"), JsString("b"), JsString("c")))

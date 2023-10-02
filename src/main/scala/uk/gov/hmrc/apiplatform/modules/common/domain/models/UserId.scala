@@ -24,7 +24,7 @@ case class UserId(value: ju.UUID) extends AnyVal {
 }
 
 object UserId {
-  import play.api.libs.json.{Json, Format}
+  import play.api.libs.json.{Format, Json}
 
   implicit val formatUserId: Format[UserId] = Json.valueFormat[UserId]
 

@@ -23,7 +23,7 @@ case class ClientId(value: String) extends AnyVal {
 }
 
 object ClientId {
-  import play.api.libs.json.{Json, Format}
+  import play.api.libs.json.{Format, Json}
 
   implicit val formatClientId: Format[ClientId] = Json.valueFormat[ClientId]
 

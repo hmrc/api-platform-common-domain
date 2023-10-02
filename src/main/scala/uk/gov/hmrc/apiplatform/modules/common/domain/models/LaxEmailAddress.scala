@@ -16,8 +16,7 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import play.api.libs.json.Json
-import play.api.libs.json.Format
+import play.api.libs.json.{Format, Json}
 
 /** LaxEmailAddress is a wrapper to string but designed to carry the idea of an email address
   *
