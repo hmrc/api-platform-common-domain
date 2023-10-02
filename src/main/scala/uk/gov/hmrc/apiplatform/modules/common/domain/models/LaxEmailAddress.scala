@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 /** LaxEmailAddress is a wrapper to string but designed to carry the idea of an email address
   *
@@ -29,7 +29,9 @@ final case class LaxEmailAddress(text: String) extends AnyVal {
 }
 
 object LaxEmailAddress {
-  implicit val formatter = Json.valueFormat[LaxEmailAddress]
+  implicit val formatterLaxEmailAddress: Format[LaxEmailAddress] = Json.valueFormat[LaxEmailAddress]
+
+  implicit val orderingLaxEmailAddress: Ordering[LaxEmailAddress] = Ordering.by[LaxEmailAddress, String](_.text)
 
   implicit class StringSyntax(value: String) {
     def toLaxEmail: LaxEmailAddress = LaxEmailAddress(value)
