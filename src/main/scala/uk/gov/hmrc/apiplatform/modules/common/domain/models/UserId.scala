@@ -26,7 +26,7 @@ case class UserId(value: ju.UUID) extends AnyVal {
 object UserId {
   import play.api.libs.json.{Format, Json}
 
-  implicit val formatUserId: Format[UserId] = Json.valueFormat[UserId]
+  implicit val format: Format[UserId] = Json.valueFormat[UserId]
 
   def apply(raw: String): Option[UserId] = allCatch.opt(UserId(ju.UUID.fromString(raw)))
 
