@@ -49,5 +49,5 @@ object Environment {
 
   import play.api.libs.json.Format
 
-  implicit val formatEnvironment: Format[Environment] = SealedTraitJsonFormatting.createFormatFor[Environment]("Environment", apply(_))
+  implicit val format: Format[Environment] = SealedTraitJsonFormatting.createFormatFor[Environment]("Environment", apply(_))
 }

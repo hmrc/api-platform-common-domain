@@ -37,9 +37,9 @@ object ApiIdentifier {
       (JsPath \ "version").write[ApiVersionNbr] // TODO - change to versionNbr once all readers are safe
   )(unlift(ApiIdentifier.unapply))
 
-  implicit val formatApiIdentifier: OFormat[ApiIdentifier] = OFormat[ApiIdentifier](readsApiIdentifier, writesApiIdentifier)
+  implicit val format: OFormat[ApiIdentifier] = OFormat[ApiIdentifier](readsApiIdentifier, writesApiIdentifier)
 
-  implicit val orderingApiIdentifier: Ordering[ApiIdentifier] = Ordering.by[ApiIdentifier, String](_.context.value).orElseBy(_.versionNbr.value)
+  implicit val ordering: Ordering[ApiIdentifier] = Ordering.by[ApiIdentifier, String](_.context.value).orElseBy(_.versionNbr.value)
 
 // $COVERAGE-OFF$
   def random: ApiIdentifier = ApiIdentifier(ApiContext.random, ApiVersionNbr.random)

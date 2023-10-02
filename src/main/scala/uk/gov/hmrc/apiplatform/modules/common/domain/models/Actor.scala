@@ -65,7 +65,7 @@ object Actor {
   implicit val actorsGatekeeperUserReads: Reads[Actors.GatekeeperUser] = ((JsPath \ "id").read[String] or (JsPath \ "user").read[String]).map(Actors.GatekeeperUser(_))
   implicit val actorsScheduledJobReads: Reads[Actors.ScheduledJob]     = ((JsPath \ "id").read[String] or (JsPath \ "jobId").read[String]).map(Actors.ScheduledJob(_))
 
-  implicit val formatNewStyleActor: OFormat[Actor] = Union.from[Actor]("actorType")
+  implicit val format: OFormat[Actor] = Union.from[Actor]("actorType")
     .and[Actors.AppCollaborator](ActorType.COLLABORATOR.toString)
     .and[Actors.GatekeeperUser](ActorType.GATEKEEPER.toString)
     .and[Actors.ScheduledJob](ActorType.SCHEDULED_JOB.toString)

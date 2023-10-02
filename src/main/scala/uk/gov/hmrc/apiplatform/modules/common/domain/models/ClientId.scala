@@ -25,7 +25,7 @@ case class ClientId(value: String) extends AnyVal {
 object ClientId {
   import play.api.libs.json.{Format, Json}
 
-  implicit val formatClientId: Format[ClientId] = Json.valueFormat[ClientId]
+  implicit val format: Format[ClientId] = Json.valueFormat[ClientId]
 
 // $COVERAGE-OFF$
   def random: ClientId = ClientId(Random.alphanumeric.take(28).mkString)

@@ -29,9 +29,9 @@ final case class LaxEmailAddress(text: String) extends AnyVal {
 }
 
 object LaxEmailAddress {
-  implicit val formatterLaxEmailAddress: Format[LaxEmailAddress] = Json.valueFormat[LaxEmailAddress]
+  implicit val format: Format[LaxEmailAddress] = Json.valueFormat[LaxEmailAddress]
 
-  implicit val orderingLaxEmailAddress: Ordering[LaxEmailAddress] = Ordering.by[LaxEmailAddress, String](_.text)
+  implicit val ordering: Ordering[LaxEmailAddress] = Ordering.by[LaxEmailAddress, String](_.text)
 
   implicit class StringSyntax(value: String) {
     def toLaxEmail: LaxEmailAddress = LaxEmailAddress(value)

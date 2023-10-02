@@ -49,7 +49,7 @@ object ActorType {
 
   import play.api.libs.json.Format
 
-  implicit val formatActorType: Format[ActorType] = SealedTraitJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_))
+  implicit val format: Format[ActorType] = SealedTraitJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_))
 
   def actorType(a: Actor): ActorType = a match {
     case _: Actors.GatekeeperUser  => GATEKEEPER
