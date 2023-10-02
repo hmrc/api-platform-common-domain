@@ -34,7 +34,7 @@ object ApiContext {
   implicit val keyReadsApiContext: KeyReads[ApiContext]   = key => JsSuccess(ApiContext(key))
   implicit val keyWritesApiContext: KeyWrites[ApiContext] = _.value
 
-  implicit val ordering: Ordering[ApiContext] = Ordering.by[ApiContext, String](_.value)
+  implicit val orderingApiContext: Ordering[ApiContext] = Ordering.by[ApiContext, String](_.value)
 
 // $COVERAGE-OFF$
   def random: ApiContext = ApiContext(Random.alphanumeric.take(10).mkString)

@@ -30,7 +30,7 @@ object ApiVersionNbr {
   implicit val keyReadsApiVersionNbr: KeyReads[ApiVersionNbr]   = key => JsSuccess(ApiVersionNbr(key))
   implicit val keyWritesApiVersionNbr: KeyWrites[ApiVersionNbr] = _.value
 
-  implicit val ordering: Ordering[ApiVersionNbr] = new Ordering[ApiVersionNbr] {
+  implicit val orderingApiVersionNbr: Ordering[ApiVersionNbr] = new Ordering[ApiVersionNbr] {
 
     override def compare(x: ApiVersionNbr, y: ApiVersionNbr): Int = {
       def asInt(versionNbr: ApiVersionNbr, portion: Int): Int =

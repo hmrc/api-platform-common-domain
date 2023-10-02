@@ -17,28 +17,20 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import java.{util => ju}
-import scala.util.control.NonFatal
+import scala.util.control.Exception._
 
 case class UserId(value: ju.UUID) extends AnyVal {
   override def toString(): String = value.toString
 }
 
 object UserId {
-  import play.api.libs.json.Json
+  import play.api.libs.json.{Json, Format}
 
-  implicit val formatUserId = Json.valueFormat[UserId]
+  implicit val formatUserId: Format[UserId] = Json.valueFormat[UserId]
 
-  def apply(raw: String): Option[UserId] = {
-    try {
-      Some(UserId(ju.UUID.fromString(raw)))
-    } catch {
-      case NonFatal(e) => None
-    }
-  }
+  def apply(raw: String): Option[UserId] = allCatch.opt(UserId(ju.UUID.fromString(raw)))
 
-  def unsafeApply(raw: String): UserId = {
-    UserId(ju.UUID.fromString(raw))
-  }
+  def unsafeApply(raw: String): UserId = apply(raw).getOrElse(throw new RuntimeException(s"$raw is not a valid UserId"))
 
 // $COVERAGE-OFF$
   def random: UserId = UserId(ju.UUID.randomUUID())

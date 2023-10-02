@@ -17,7 +17,7 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import java.{util => ju}
-import scala.util.control.NonFatal
+import scala.util.control.Exception._
 
 final case class ApplicationId(value: ju.UUID) extends AnyVal {
   override def toString(): String = value.toString()
@@ -26,17 +26,9 @@ final case class ApplicationId(value: ju.UUID) extends AnyVal {
 object ApplicationId {
   import play.api.libs.json.{Format, Json}
 
-  def apply(raw: String): Option[ApplicationId] = {
-    try {
-      Some(ApplicationId(ju.UUID.fromString(raw)))
-    } catch {
-      case NonFatal(e) => None
-    }
-  }
+  def apply(raw: String): Option[ApplicationId] = allCatch.opt(ApplicationId(ju.UUID.fromString(raw)))
 
-  def unsafeApply(raw: String): ApplicationId = {
-    ApplicationId(ju.UUID.fromString(raw))
-  }
+  def unsafeApply(raw: String): ApplicationId = ApplicationId(ju.UUID.fromString(raw))
 
   implicit val formatApplicationId: Format[ApplicationId] = Json.valueFormat[ApplicationId]
 

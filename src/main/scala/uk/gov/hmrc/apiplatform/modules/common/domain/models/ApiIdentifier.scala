@@ -38,7 +38,8 @@ object ApiIdentifier {
   )(unlift(ApiIdentifier.unapply))
 
   implicit val formatApiIdentifier: OFormat[ApiIdentifier] = OFormat[ApiIdentifier](readsApiIdentifier, writesApiIdentifier)
-  implicit val ordering: Ordering[ApiIdentifier]           = Ordering.by[ApiIdentifier, String](_.context.value).orElseBy(_.versionNbr.value)
+
+  implicit val orderingApiIdentifier: Ordering[ApiIdentifier]           = Ordering.by[ApiIdentifier, String](_.context.value).orElseBy(_.versionNbr.value)
 
 // $COVERAGE-OFF$
   def random: ApiIdentifier = ApiIdentifier(ApiContext.random, ApiVersionNbr.random)

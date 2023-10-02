@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.common.domain.models
+package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
-import scala.util.Random
+import cats.data.{NonEmptyList => NEL}
 
-case class ClientId(value: String) extends AnyVal {
-  override def toString(): String = value
+import play.api.libs.json._
+
+trait NonEmptyListFormatters {
+
+  implicit def nelReads[A](implicit r: Reads[A]): Reads[NEL[A]] =
+    Reads
+      .of[List[A]]
+      .collect(
+        JsonValidationError("expected a NonEmptyList but got an empty list")
+      ) {
+        case head :: tail => NEL(head, tail)
+      }
+
+  implicit def nelWrites[A](implicit w: Writes[A]): Writes[NEL[A]] =
+    Writes
+      .of[List[A]]
+      .contramap(_.toList)
 }
 
-object ClientId {
-  import play.api.libs.json.{Json, Format}
-
-  implicit val formatClientId: Format[ClientId] = Json.valueFormat[ClientId]
-
-// $COVERAGE-OFF$
-  def random: ClientId = ClientId(Random.alphanumeric.take(28).mkString)
-// $COVERAGE-ON$
-}
+object NonEmptyListFormatters extends NonEmptyListFormatters

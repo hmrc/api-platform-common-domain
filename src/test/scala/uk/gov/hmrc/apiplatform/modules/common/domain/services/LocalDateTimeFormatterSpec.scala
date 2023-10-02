@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.common.services
+package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
 import java.time.LocalDateTime
 
@@ -23,7 +23,7 @@ import play.api.libs.json.{JsString, Json}
 import uk.gov.hmrc.apiplatform.modules.common.utils.HmrcSpec
 
 class LocalDateTimeFormatterSpec extends HmrcSpec {
-  import uk.gov.hmrc.apiplatform.modules.common.services.LocalDateTimeFormatter._
+  import uk.gov.hmrc.apiplatform.modules.common.domain.services.LocalDateTimeFormatter._
 
   "LocalDateTimeFormatter" when {
     val aTimestamp              = LocalDateTime.of(2020, 1, 1, 12, 1, 2)

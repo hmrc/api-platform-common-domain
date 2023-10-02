@@ -20,6 +20,7 @@ import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
+import scala.util.Random
 
 class LaxEmailAddressSpec extends BaseJsonFormattersSpec {
 
@@ -44,6 +45,12 @@ class LaxEmailAddressSpec extends BaseJsonFormattersSpec {
       "read json" in {
         Json.parse(""" "quark" """).as[LaxEmailAddress] shouldBe LaxEmailAddress("quark")
       }
+    }
+
+    "orders correctly" in {
+      val emails = List("aa@bob.com", "ab@bob.com", "ab@cob.com", "b@bob.com", "c@bob.com").map(LaxEmailAddress(_))
+
+      Random.shuffle(emails).sorted shouldBe emails
     }
 
     "StringSyntax" should {
