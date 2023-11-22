@@ -16,20 +16,19 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import play.api.libs.json.{Format, Json}
+import play.api.libs.json.{Format, Json, Reads}
 
 /** LaxEmailAddress is a wrapper to string but designed to carry the idea of an email address
   *
-  * NO verification takes place !
+  * NO verification takes place ! Always contains lower case value
   */
-final case class LaxEmailAddress(text: String) extends AnyVal {
-  def normalise(): LaxEmailAddress = this.copy(text = text.toLowerCase())
-
-  def equalsIgnoreCase(other: LaxEmailAddress): Boolean = this.text.equalsIgnoreCase(other.text)
-}
+case class LaxEmailAddress private (text: String) extends AnyVal
 
 object LaxEmailAddress {
-  implicit val format: Format[LaxEmailAddress] = Json.valueFormat[LaxEmailAddress]
+  def apply(text: String): LaxEmailAddress = new LaxEmailAddress(text.toLowerCase())
+
+  private val reads: Reads[LaxEmailAddress]    = Reads.StringReads.map(LaxEmailAddress.apply)
+  implicit val format: Format[LaxEmailAddress] = Format(reads, Json.valueWrites[LaxEmailAddress])
 
   implicit val ordering: Ordering[LaxEmailAddress] = Ordering.by[LaxEmailAddress, String](_.text)
 
