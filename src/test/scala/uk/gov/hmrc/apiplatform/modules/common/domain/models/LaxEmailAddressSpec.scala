@@ -29,13 +29,13 @@ class LaxEmailAddressSpec extends BaseJsonFormattersSpec {
 
   "LaxEmailAddress" when {
     "creating a lax email address" should {
-      "normalise the text" in {
-        LaxEmailAddress("BOB@smith.com").normalise().text shouldBe "bob@smith.com"
+      "creating a lax email address forces to lower case" in {
+        LaxEmailAddress("BOB@smith.com").text shouldBe "bob@smith.com"
       }
     }
     "comparing case insensitive" should {
       "match" in {
-        LaxEmailAddress("BOB@smith.com").equalsIgnoreCase(bobSmithEmailAddress) shouldBe true
+        LaxEmailAddress("BOB@smith.com") == bobSmithEmailAddress shouldBe true
       }
     }
     "format a lax email address" should {
@@ -45,6 +45,10 @@ class LaxEmailAddressSpec extends BaseJsonFormattersSpec {
 
       "read json" in {
         Json.parse(""" "quark" """).as[LaxEmailAddress] shouldBe LaxEmailAddress("quark")
+      }
+
+      "read json normalises any `bad` data" in {
+        Json.parse(""" "BOB@smith.com" """).as[LaxEmailAddress] shouldBe LaxEmailAddress("bob@smith.com")
       }
     }
 
@@ -56,7 +60,7 @@ class LaxEmailAddressSpec extends BaseJsonFormattersSpec {
 
     "StringSyntax" should {
       "convert as string to a laxEmail Address" in {
-        "bob@smith.com".toLaxEmail shouldBe bobSmithEmailAddress
+        "Bob@smith.com".toLaxEmail shouldBe bobSmithEmailAddress
       }
     }
   }
