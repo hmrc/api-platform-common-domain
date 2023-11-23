@@ -20,9 +20,11 @@ import play.api.libs.json.{Format, Json, Reads}
 
 /** LaxEmailAddress is a wrapper to string but designed to carry the idea of an email address
   *
-  * NO verification takes place ! Always contains lower case value
+  * NO verification takes place ! Should allways contain lower case value
+  *
+  * We rely on the apply to prevent mixed case as we cannot make it private or it breaks mocking
   */
-case class LaxEmailAddress private (text: String) extends AnyVal
+case class LaxEmailAddress(text: String) extends AnyVal
 
 object LaxEmailAddress {
   def apply(text: String): LaxEmailAddress = new LaxEmailAddress(text.toLowerCase())
