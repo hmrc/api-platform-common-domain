@@ -21,7 +21,6 @@ import scala.concurrent.{ExecutionContext, Future}
 import cats.data.{EitherT, Validated}
 import cats.instances.future.catsStdInstancesForFuture
 
-// $COVERAGE-OFF$
 trait EitherTHelper[E] {
   outer =>
 
@@ -50,4 +49,3 @@ object EitherTHelper {
     implicit val ec: ExecutionContext = outerEC
   }
 }
-// $COVERAGE-ON$

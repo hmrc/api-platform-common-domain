@@ -17,7 +17,6 @@
 package uk.gov.hmrc.apiplatform.modules.common.services
 
 import java.time.{Duration, Instant}
-// $COVERAGE-OFF$
 
 // NOT FOR USE WITH FUTURES
 //
@@ -33,4 +32,3 @@ trait SimpleTimer {
     TimedValue(output, duration)
   }
 }
-// $COVERAGE-ON$

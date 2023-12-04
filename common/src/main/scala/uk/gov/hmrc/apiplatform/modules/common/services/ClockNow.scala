@@ -19,7 +19,6 @@ package uk.gov.hmrc.apiplatform.modules.common.services
 import java.time.temporal.ChronoUnit
 import java.time.{Clock, Instant, LocalDateTime}
 
-// $COVERAGE-OFF$
 trait ClockNow {
 
   implicit class LocalDateTimeTruncateSyntax(me: LocalDateTime) {
@@ -38,4 +37,3 @@ trait ClockNow {
 
   def clock: Clock
 }
-// $COVERAGE-ON$

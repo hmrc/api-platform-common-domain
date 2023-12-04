@@ -29,10 +29,13 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
   .settings(
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
-    Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
+
+    Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
+    Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "test" / "scala",
+    
     Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
-     )
+  )
   .disablePlugins(JUnitXmlReportPlugin)
 
 

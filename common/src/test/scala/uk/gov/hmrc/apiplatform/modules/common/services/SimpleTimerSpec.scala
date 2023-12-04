@@ -16,21 +16,23 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.services
 
-import java.time.{Duration, Instant}
-import scala.concurrent.{ExecutionContext, Future}
+import java.time.Instant
+import scala.collection.mutable.Queue
 
-trait FutureTimer {
-  self: ClockNow =>
+import uk.gov.hmrc.apiplatform.modules.common.utils.{ClockWithInstants, FixedClock, HmrcSpec}
 
-  def timeThisFuture[T](f: => Future[T])(implicit ec: ExecutionContext): Future[TimedValue[T]] = {
-    println("Starting timer") // No logger in scope in project
-    val startTime: Instant = precise()
+class SimpleTimerSpec extends HmrcSpec {
 
-    f.map(value => {
-      println("Mapping") // No logger in scope in project
-      val endTime: Instant = precise()
-      val duration         = Duration.between(startTime, endTime)
-      TimedValue(value, duration)
-    })
+  class FakedClockTimer(instants: Queue[Instant]) extends ClockWithInstants(instants) with SimpleTimer
+
+  "SimpleTimer" should {
+    "capture a duration" in {
+      val fakedClockTimer = new FakedClockTimer(Queue(FixedClock.instant, FixedClock.instant.plusNanos(10000)))
+
+      inside(fakedClockTimer.timeThis(() => true)) { case TimedValue(value, duration) =>
+        duration.getSeconds() shouldBe 0
+        duration.getNano() shouldBe 10000
+      }
+    }
   }
 }

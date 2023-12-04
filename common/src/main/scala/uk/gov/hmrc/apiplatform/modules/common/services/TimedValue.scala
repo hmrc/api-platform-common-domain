@@ -17,7 +17,5 @@
 package uk.gov.hmrc.apiplatform.modules.common.services
 
 import java.time.Duration
-// $COVERAGE-OFF$
 
 final case class TimedValue[A](value: A, duration: Duration)
-// $COVERAGE-ON$
