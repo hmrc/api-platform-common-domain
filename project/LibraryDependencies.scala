@@ -1,8 +1,10 @@
 import sbt._
 
 object LibraryDependencies {
-  def apply() = compileDependencies ++ testDependencies
+  lazy val commonDomain = compileDependencies ++ testDependencies.map(_ % "test")
 
+  lazy val root = compileDependencies ++ testDependencies
+  
   lazy val compileDependencies = Seq(
     "com.typesafe.play"       %% "play-json"                      % "2.9.3",
     "uk.gov.hmrc"             %% "play-json-union-formatter"      % "1.18.0-play-28",
@@ -10,9 +12,8 @@ object LibraryDependencies {
   )
 
   lazy val testDependencies = Seq(
-    "org.scalatest"           %% "scalatest"                      % "3.2.14"            % "test",
-    "com.vladsch.flexmark"     % "flexmark-all"                   % "0.62.2"            % "test",  
-    "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.29"           % "test",
-    "org.scalatest"           %% "scalatest"                      % "3.2.17"            % "test"
+    "com.vladsch.flexmark"     % "flexmark-all"                   % "0.62.2",
+    "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.29",
+    "org.scalatest"           %% "scalatest"                      % "3.2.17"
   )
 }
