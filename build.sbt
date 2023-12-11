@@ -29,6 +29,8 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
   .settings(
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
+    // Move aggregated report to top level for jenkins build
+    ScoverageKeys.coverageDataDir := baseDirectory.value / ".." / "target" / s"scala-${scalaVersion.value}",
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
 
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
