@@ -20,9 +20,11 @@ ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 lazy val library = (project in file("."))
-  .settings(publish / skip := true)
+  .settings(
+    publish / skip := true
+  )
   .aggregate(
-   apiPlatformCommonDomain, apiPlatformTestCommonDomain
+    apiPlatformCommonDomain, apiPlatformTestCommonDomain
   )
 
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
@@ -30,7 +32,8 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
     // Move aggregated report to top level for jenkins build
-    ScoverageKeys.coverageDataDir := baseDirectory.value / ".." / "target" / s"scala-${scalaVersion.value}",
+    // ScoverageKeys.coverageDataDir := baseDirectory.value / ".." / "target" / s"scala-${scalaBinaryVersion.value}",
+    // ScoverageKeys.coverageSourceRoot := baseDirectory.value / src,
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
 
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
@@ -60,7 +63,7 @@ commands ++= Seq(
   Command.command("clean-and-test") { state => "clean" :: "compile" :: "run-all-tests" :: state },
 
   // Coverage does not need compile !
-  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageReport" :: "coverageOff" :: state }
+  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageAggregate" :: "coverageOff" :: state }
 )
 
 
