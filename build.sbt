@@ -31,9 +31,6 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
   .settings(
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
-    // Move aggregated report to top level for jenkins build
-    // ScoverageKeys.coverageDataDir := baseDirectory.value / ".." / "target" / s"scala-${scalaBinaryVersion.value}",
-    // ScoverageKeys.coverageSourceRoot := baseDirectory.value / src,
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
 
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
@@ -63,7 +60,7 @@ commands ++= Seq(
   Command.command("clean-and-test") { state => "clean" :: "compile" :: "run-all-tests" :: state },
 
   // Coverage does not need compile !
-  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageAggregate" :: "coverageOff" :: state }
+  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageOff" :: "coverageAggregate" :: state }
 )
 
 
