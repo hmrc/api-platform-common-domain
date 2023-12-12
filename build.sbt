@@ -27,7 +27,7 @@ lazy val library = (project in file("."))
     apiPlatformCommonDomain, apiPlatformTestCommonDomain
   )
 
-lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
+lazy val apiPlatformCommonDomain = (project in file("api-platform-common-domain"))
   .settings(
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
@@ -41,7 +41,7 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
   .disablePlugins(JUnitXmlReportPlugin)
 
 
-lazy val apiPlatformTestCommonDomain = Project("api-platform-test-common-domain", file("api-platform-test-common-domain"))
+lazy val apiPlatformTestCommonDomain = (project in file("api-platform-test-common-domain"))
   .dependsOn(
     apiPlatformCommonDomain
   )
