@@ -27,13 +27,10 @@ lazy val library = (project in file("."))
     apiPlatformCommonDomain, apiPlatformTestCommonDomain
   )
 
-lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
+lazy val apiPlatformCommonDomain = (project in file("api-platform-common-domain"))
   .settings(
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
-    // Move aggregated report to top level for jenkins build
-    // ScoverageKeys.coverageDataDir := baseDirectory.value / ".." / "target" / s"scala-${scalaBinaryVersion.value}",
-    // ScoverageKeys.coverageSourceRoot := baseDirectory.value / src,
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
 
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
@@ -44,7 +41,7 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
   .disablePlugins(JUnitXmlReportPlugin)
 
 
-lazy val apiPlatformTestCommonDomain = Project("api-platform-test-common-domain", file("api-platform-test-common-domain"))
+lazy val apiPlatformTestCommonDomain = (project in file("api-platform-test-common-domain"))
   .dependsOn(
     apiPlatformCommonDomain
   )
@@ -63,7 +60,7 @@ commands ++= Seq(
   Command.command("clean-and-test") { state => "clean" :: "compile" :: "run-all-tests" :: state },
 
   // Coverage does not need compile !
-  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageAggregate" :: "coverageOff" :: state }
+  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageOff" :: "coverageAggregate" :: state }
 )
 
 
