@@ -23,14 +23,6 @@ import java.time.{Instant, ZoneId}
 
 import play.api.libs.json._
 
-trait InstantWithTimeZoneFormatter {
-  implicit val instantFormat: Format[Instant] = InstantJsonFormatter.WithTimeZone.instantWithTimeZoneFormat
-}
-
-trait InstantNoTimeZoneFormatter {
-  implicit val instantFormat: Format[Instant] = InstantJsonFormatter.NoTimeZone.instantNoTimeZoneFormat
-}
-
 object InstantJsonFormatter {
 
   val lenientFormatter: DateTimeFormatter = new DateTimeFormatterBuilder()
