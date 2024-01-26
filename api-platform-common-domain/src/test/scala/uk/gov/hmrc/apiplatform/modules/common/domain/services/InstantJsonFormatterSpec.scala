@@ -22,7 +22,7 @@ import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class InstantJsonFormattersSpec extends BaseJsonFormattersSpec {
+class InstantJsonFormatterSpec extends BaseJsonFormattersSpec {
 
   "InstantJsonFormatters" should {
 
@@ -34,8 +34,17 @@ class InstantJsonFormattersSpec extends BaseJsonFormattersSpec {
       testFromJson[Instant](""""2000-01-02T03:04:05.006"""")(instant)
     }
 
+    "read from Json (WithTimeZone trait)" in new InstantWithTimeZoneFormatter {
+      testFromJson[Instant](""""2000-01-02T03:04:05.006Z"""")(instant)
+      testFromJson[Instant](""""2000-01-02T03:04:05.006"""")(instant)
+    }
+
     "write to Json (WithTimeZone)" in {
       import uk.gov.hmrc.apiplatform.modules.common.domain.services.InstantJsonFormatter.WithTimeZone._
+      Json.toJson[Instant](instant) shouldBe JsString("2000-01-02T03:04:05.006Z")
+    }
+
+    "write to Json (WithTimeZone trait)" in new InstantWithTimeZoneFormatter {
       Json.toJson[Instant](instant) shouldBe JsString("2000-01-02T03:04:05.006Z")
     }
 
@@ -45,9 +54,19 @@ class InstantJsonFormattersSpec extends BaseJsonFormattersSpec {
       testFromJson[Instant](""""2000-01-02T03:04:05.006"""")(instant)
     }
 
+    "read from Json (NoTimeZone trait)" in new InstantNoTimeZoneFormatter {
+      testFromJson[Instant](""""2000-01-02T03:04:05.006Z"""")(instant)
+      testFromJson[Instant](""""2000-01-02T03:04:05.006"""")(instant)
+    }
+
     "write to Json (NoTimeZone)" in {
       import uk.gov.hmrc.apiplatform.modules.common.domain.services.InstantJsonFormatter.NoTimeZone._
       Json.toJson[Instant](instant) shouldBe JsString("2000-01-02T03:04:05.006")
     }
+
+    "write to Json (NoTimeZone trait)" in new InstantNoTimeZoneFormatter {
+      Json.toJson[Instant](instant) shouldBe JsString("2000-01-02T03:04:05.006")
+    }
+
   }
 }
