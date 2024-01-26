@@ -25,9 +25,15 @@ trait FixedClock extends ClockNow {
 
   private val utc: ZoneOffset = ZoneOffset.UTC
 
-  override val now: LocalDateTime = LocalDateTime.of(2020, 1, 2, 3, 4, 5, 6 * 1000 * 1000).truncatedTo(ChronoUnit.MILLIS)
+  val preciseNow: LocalDateTime = LocalDateTime.of(2020, 1, 2, 3, 4, 5, (6 * 1000 + 7) * 1000)
+
+  override val now: LocalDateTime = preciseNow.truncatedTo(ChronoUnit.MILLIS)
+
+  override val precise: Instant = preciseNow.toInstant(utc)
 
   override val instant: Instant = now.toInstant(utc)
+
+  val preciseNowAsText: String = "2020-01-02T03:04:05.006007Z"
 
   val nowAsText: String = "2020-01-02T03:04:05.006Z"
 

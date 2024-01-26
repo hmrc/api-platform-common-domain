@@ -24,7 +24,7 @@ import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
 class InstantJsonFormatterSpec extends BaseJsonFormattersSpec {
 
-  "InstantJsonFormatters" should {
+  "InstantJsonFormatter" should {
 
     val instant: Instant = LocalDateTime.of(2000, 1, 2, 3, 4, 5, 6 * 1000 * 1000).toInstant(ZoneOffset.UTC)
 

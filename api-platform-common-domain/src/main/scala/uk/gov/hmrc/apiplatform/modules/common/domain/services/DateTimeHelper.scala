@@ -21,16 +21,19 @@ import java.time.{Instant, LocalDate, LocalDateTime, ZoneOffset}
 object DateTimeHelper {
 
   implicit class LocalDateTimeConversionSyntax(localDateTime: LocalDateTime) {
+
     /** Converts a LocalDateTime to an Instant, assuming the LDT was created in the UTC time zone. */
     def asInstant: Instant = localDateTime.toInstant(ZoneOffset.UTC)
   }
 
   implicit class LocalDateConversionSyntax(localDate: LocalDate) {
+
     /** Converts a LocalDate to an Instant, assuming the LD was created in the UTC time zone. */
     def asInstant: Instant = localDate.atTime(0, 0).toInstant(ZoneOffset.UTC)
   }
 
   implicit class InstantConversionSyntax(instant: Instant) {
+
     /** Converts an Instant to a LocalDateTime, assuming "local" is in the UTC time zone. */
     def asLocalDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC)
 

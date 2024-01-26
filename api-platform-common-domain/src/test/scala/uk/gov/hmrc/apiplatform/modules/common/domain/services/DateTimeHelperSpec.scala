@@ -16,33 +16,34 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
-import java.time.{Instant, LocalDate, LocalDateTime}
+import java.time.ZoneOffset
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.services.DateTimeHelper._
-import uk.gov.hmrc.apiplatform.modules.common.utils.HmrcSpec
+import uk.gov.hmrc.apiplatform.modules.common.utils.{FixedClock, HmrcSpec}
 
-class DateTimeHelperSpec extends HmrcSpec {
+class DateTimeHelperSpec extends HmrcSpec with FixedClock {
 
   "DateTimeHelper" should {
 
-    val localDateTime     = LocalDateTime.of(2000, 1, 2, 3, 4, 5, 6 * 1000 * 1000)
-    val localDate         = LocalDate.of(2000, 1, 2)
-    val instant           = Instant.parse("2000-01-02T03:04:05.006Z")
-    val instantAtMidnight = Instant.parse("2000-01-02T00:00:00Z")
+    val localDate  = now.toLocalDate
+    val startOfDay = localDate.atStartOfDay(ZoneOffset.UTC).toInstant
 
     "convert a LocalDateTime to an Instant" in {
-      localDateTime.asInstant shouldBe instant
+      preciseNow.asInstant shouldBe precise // TODO APIS-6715 Do we want truncation here? i.e. shouldBe instant
+      now.asInstant shouldBe instant
     }
 
     "convert a LocalDate to an Instant" in {
-      localDate.asInstant shouldBe instantAtMidnight
+      localDate.asInstant shouldBe startOfDay
     }
 
     "convert an Instant to a LocalDateTime" in {
-      instant.asLocalDateTime shouldBe localDateTime
+      precise.asLocalDateTime shouldBe preciseNow // TODO APIS-6715 Do we want truncation here? i.e. shouldBe now
+      instant.asLocalDateTime shouldBe now
     }
 
     "convert an Instant to a LocalDate (with time truncated)" in {
+      precise.asLocalDate shouldBe localDate
       instant.asLocalDate shouldBe localDate
     }
   }
