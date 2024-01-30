@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
+import java.time.temporal.ChronoUnit
 import java.time.{Instant, LocalDate, LocalDateTime, ZoneOffset}
 
 object DateTimeHelper {
@@ -23,7 +24,7 @@ object DateTimeHelper {
   implicit class LocalDateTimeConversionSyntax(localDateTime: LocalDateTime) {
 
     /** Converts a LocalDateTime to an Instant, assuming the LDT was created in the UTC time zone. */
-    def asInstant: Instant = localDateTime.toInstant(ZoneOffset.UTC)
+    def asInstant: Instant = localDateTime.toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS)
   }
 
   implicit class LocalDateConversionSyntax(localDate: LocalDate) {
@@ -35,7 +36,7 @@ object DateTimeHelper {
   implicit class InstantConversionSyntax(instant: Instant) {
 
     /** Converts an Instant to a LocalDateTime, assuming "local" is in the UTC time zone. */
-    def asLocalDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC)
+    def asLocalDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS)
 
     /** Converts an Instant to a LocalDate, assuming "local" is in the UTC time zone. Note: truncates the time */
     def asLocalDate: LocalDate = LocalDate.ofInstant(instant, ZoneOffset.UTC)
