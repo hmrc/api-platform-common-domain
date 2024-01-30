@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.common.domain.services
+package uk.gov.hmrc.apiplatform.modules.common.services
 
 import java.time.temporal.ChronoUnit
 import java.time.{Instant, LocalDate, LocalDateTime, ZoneOffset}
 
-object DateTimeHelper {
+trait DateTimeHelper {
+
+  implicit class LocalDateTimeTruncateSyntax(me: LocalDateTime) {
+    def truncate() = me.truncatedTo(ChronoUnit.MILLIS)
+  }
+
+  implicit class InstantTruncateSyntax(me: Instant) {
+    def truncate() = me.truncatedTo(ChronoUnit.MILLIS)
+  }
 
   implicit class LocalDateTimeConversionSyntax(localDateTime: LocalDateTime) {
 
     /** Converts a LocalDateTime to an Instant, assuming the LDT was created in the UTC time zone. */
-    def asInstant: Instant = localDateTime.toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS)
+    def asInstant: Instant = localDateTime.toInstant(ZoneOffset.UTC).truncate()
   }
 
   implicit class LocalDateConversionSyntax(localDate: LocalDate) {
@@ -36,9 +44,11 @@ object DateTimeHelper {
   implicit class InstantConversionSyntax(instant: Instant) {
 
     /** Converts an Instant to a LocalDateTime, assuming "local" is in the UTC time zone. */
-    def asLocalDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS)
+    def asLocalDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC).truncate()
 
     /** Converts an Instant to a LocalDate, assuming "local" is in the UTC time zone. Note: truncates the time */
     def asLocalDate: LocalDate = LocalDate.ofInstant(instant, ZoneOffset.UTC)
   }
 }
+
+object DateTimeHelper extends DateTimeHelper

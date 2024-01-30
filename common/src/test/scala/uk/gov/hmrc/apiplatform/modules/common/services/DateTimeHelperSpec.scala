@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.common.domain.services
+package uk.gov.hmrc.apiplatform.modules.common.services
 
-import java.time.temporal.ChronoUnit
-import java.time.{Instant, LocalDate, ZoneOffset}
+import java.time.temporal.ChronoField
+import java.time.{Instant, LocalDate, LocalDateTime, ZoneOffset}
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.services.DateTimeHelper._
 import uk.gov.hmrc.apiplatform.modules.common.utils.{FixedClock, HmrcSpec}
 
 class DateTimeHelperSpec extends HmrcSpec with FixedClock {
@@ -29,12 +28,22 @@ class DateTimeHelperSpec extends HmrcSpec with FixedClock {
     val localDate: LocalDate = now.toLocalDate
     val startOfDay: Instant  = localDate.atStartOfDay(ZoneOffset.UTC).toInstant
 
+    "truncate a LocalDateTime" in {
+      LocalDateTime.now().withNano(1).truncate().getNano shouldBe 0
+      LocalDateTime.now().withNano(1100100).truncate().getNano shouldBe 1 * 1000 * 1000
+    }
+
+    "truncate an Instant" in {
+      Instant.now().`with`(ChronoField.NANO_OF_SECOND, 1).truncate().getNano shouldBe 0
+      Instant.now().`with`(ChronoField.NANO_OF_SECOND, 1100100).truncate().getNano shouldBe 1 * 1000 * 1000
+    }
+
     "convert a LocalDateTime to an Instant" in {
       now.asInstant shouldBe instant
     }
 
     "convert a LocalDateTime with nanoseconds to an Instant truncated to milliseconds" in {
-      now.plus(7, ChronoUnit.MICROS).asInstant shouldBe instant
+      now.plusNanos(7008).asInstant shouldBe instant
     }
 
     "convert a LocalDate to an Instant" in {
@@ -46,7 +55,7 @@ class DateTimeHelperSpec extends HmrcSpec with FixedClock {
     }
 
     "convert an Instant with nanoseconds to a LocalDateTime truncated to milliseconds" in {
-      instant.plus(7, ChronoUnit.MICROS).asLocalDateTime shouldBe now
+      instant.plusNanos(7008).asLocalDateTime shouldBe now
     }
 
     "convert an Instant to a LocalDate (with time truncated)" in {
