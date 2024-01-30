@@ -38,13 +38,6 @@ class ClockNowSpec extends HmrcSpec {
       ch.now() shouldBe LocalDateTime.ofInstant(myInstant.truncatedTo(ChronoUnit.MILLIS), UTC)
     }
 
-    "truncate a LocalDateTime" in new ClockNow {
-      val clock = Clock.systemUTC()
-
-      LocalDateTime.now().withNano(1).truncate().getNano() shouldBe 0
-      LocalDateTime.now().withNano(1100100).truncate().getNano() shouldBe 1 * 1000 * 1000
-    }
-
     "provide an instant for a clock" in {
       val myInstant   = Instant.now()
       val aFixedClock = Clock.fixed(myInstant, UTC)
@@ -63,13 +56,6 @@ class ClockNowSpec extends HmrcSpec {
 
       ch.precise().getNano().%(MILLION) shouldBe 1
       ch.precise() shouldNot be(ch.instant())
-    }
-
-    "truncate an Instant" in new ClockNow {
-      val clock = Clock.fixed(Instant.now, UTC)
-      val ch    = new ClockHolder(clock)
-
-      clock.instant().truncate() shouldBe ch.instant()
     }
   }
 }
