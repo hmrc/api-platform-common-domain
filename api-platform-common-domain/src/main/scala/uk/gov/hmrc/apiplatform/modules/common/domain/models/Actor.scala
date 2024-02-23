@@ -54,8 +54,6 @@ object Actor {
   import play.api.libs.functional.syntax._
   import play.api.libs.json.Reads._
 
-  implicit val actorsUnknownJF: OFormat[Actors.Unknown.type] = Json.format[Actors.Unknown.type]
-
   implicit val actorsCollaboratorWrites: OWrites[Actors.AppCollaborator]  = Json.writes[Actors.AppCollaborator]
   implicit val actorsGatekeeperUserWrites: OWrites[Actors.GatekeeperUser] = Json.writes[Actors.GatekeeperUser]
   implicit val actorsScheduledJobWrites: OWrites[Actors.ScheduledJob]     = Json.writes[Actors.ScheduledJob]
@@ -69,6 +67,6 @@ object Actor {
     .and[Actors.AppCollaborator](ActorType.COLLABORATOR.toString)
     .and[Actors.GatekeeperUser](ActorType.GATEKEEPER.toString)
     .and[Actors.ScheduledJob](ActorType.SCHEDULED_JOB.toString)
-    .and[Actors.Unknown.type](ActorType.UNKNOWN.toString)
+    .andType[Actors.Unknown.type](ActorType.UNKNOWN.toString, () => Actors.Unknown)
     .format
 }
