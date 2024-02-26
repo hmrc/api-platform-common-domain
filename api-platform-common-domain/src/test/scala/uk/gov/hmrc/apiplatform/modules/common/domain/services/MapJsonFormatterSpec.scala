@@ -55,7 +55,6 @@ class MapJsonFormatterSpec extends BaseJsonFormattersSpec {
     val sample: ListMap[PossibleAnswer, Mark] = ListMap(PossibleAnswer("a") -> Pass, PossibleAnswer("b") -> Pass, PossibleAnswer("c") -> Fail)
 
     "writing json" in {
-      println(Json.toJson[ListMap[PossibleAnswer, Mark]](sample))
       Json.toJson[ListMap[PossibleAnswer, Mark]](sample) shouldBe JsArray(Seq(
         JsObject(Seq(("a", JsString("pass")))),
         JsObject(Seq(("b", JsString("pass")))),
