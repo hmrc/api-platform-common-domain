@@ -24,7 +24,9 @@ import play.api.libs.json.{Format, Json, Reads}
   *
   * We rely on the apply to prevent mixed case as we cannot make it private or it breaks mocking
   */
-case class LaxEmailAddress(text: String) extends AnyVal
+case class LaxEmailAddress(text: String) extends AnyVal {
+  override def toString(): String = text
+}
 
 object LaxEmailAddress {
   def apply(text: String): LaxEmailAddress = new LaxEmailAddress(text.toLowerCase())
