@@ -16,10 +16,11 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.services
 
-import org.scalatest.prop.TableDrivenPropertyChecks
-import uk.gov.hmrc.apiplatform.modules.common.utils.HmrcSpec
-import uk.gov.hmrc.apiplatform.modules.common.utils.FixedClock
 import java.time.Instant
+
+import org.scalatest.prop.TableDrivenPropertyChecks
+
+import uk.gov.hmrc.apiplatform.modules.common.utils.{FixedClock, HmrcSpec}
 
 class FixedClockSpec extends HmrcSpec with TableDrivenPropertyChecks with FixedClock {
 
