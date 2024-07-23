@@ -66,6 +66,14 @@ class EitherTHelperSpec extends HmrcSpec {
       unwrap(ET.fromOptionF(successful(None), "Bang")) shouldBe error
     }
 
+    "wrap future some of simple object where error is also a future" in {
+      unwrap(ET.fromOptionM(successful(Some(1)), successful("Bang"))) shouldBe 1.asRight[ERR]
+    }
+
+    "wrap future none of simple object where error is also a future" in {
+      unwrap(ET.fromOptionM(successful(None), successful("Bang"))) shouldBe error
+    }
+
     "wrap right of simple object" in {
       unwrap(ET.fromEither(Right(1))) shouldBe 1.asRight[ERR]
     }
