@@ -31,8 +31,9 @@ trait EitherTHelper[E] {
 
   def liftF[A](in: Future[A]): EitherT[Future, E, A] = EitherT.liftF[Future, E, A](in)
 
-  def fromOption[A](in: Option[A], error: => E): EitherT[Future, E, A]          = EitherT.fromOption(in, error)
-  def fromOptionF[A](in: Future[Option[A]], error: => E): EitherT[Future, E, A] = EitherT.fromOptionF(in, error)
+  def fromOption[A](in: Option[A], error: => E): EitherT[Future, E, A]                  = EitherT.fromOption(in, error)
+  def fromOptionF[A](in: Future[Option[A]], error: => E): EitherT[Future, E, A]         = EitherT.fromOptionF(in, error)
+  def fromOptionM[A](in: Future[Option[A]], error: => Future[E]): EitherT[Future, E, A] = EitherT.fromOptionM(in, error)
 
   def fromEither[A](in: Either[E, A]): EitherT[Future, E, A]          = EitherT.fromEither(in)
   def fromEitherF[A](in: Future[Either[E, A]]): EitherT[Future, E, A] = EitherT.apply(in)
