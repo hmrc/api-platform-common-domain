@@ -33,9 +33,9 @@ class ClockNowSpec extends HmrcSpec {
       val MILLION     = 1000 * 1000
 
       // Should only have complete milliseconds
-      ch.now().getNano().%(MILLION) shouldBe 0
+      ch.now.getNano().%(MILLION) shouldBe 0
 
-      ch.now() shouldBe LocalDateTime.ofInstant(myInstant.truncatedTo(ChronoUnit.MILLIS), UTC)
+      ch.now shouldBe LocalDateTime.ofInstant(myInstant.truncatedTo(ChronoUnit.MILLIS), UTC)
     }
 
     "provide an instant for a clock" in {
@@ -45,7 +45,7 @@ class ClockNowSpec extends HmrcSpec {
       val MILLION     = 1000 * 1000
 
       // Should only have complete milliseconds
-      ch.instant().getNano().%(MILLION) shouldBe 0
+      ch.instant.getNano().%(MILLION) shouldBe 0
     }
 
     "provide a precise instant for a clock" in {
@@ -54,8 +54,8 @@ class ClockNowSpec extends HmrcSpec {
       val ch          = new ClockHolder(aFixedClock)
       val MILLION     = 1000 * 1000
 
-      ch.precise().getNano().%(MILLION) shouldBe 1
-      ch.precise() shouldNot be(ch.instant())
+      ch.precise.getNano().%(MILLION) shouldBe 1
+      ch.precise shouldNot be(ch.instant)
     }
   }
 }

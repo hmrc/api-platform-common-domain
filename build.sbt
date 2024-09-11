@@ -1,18 +1,13 @@
 import scoverage.ScoverageKeys
-import sbt._
-import sbt.Keys._
-import uk.gov.hmrc.DefaultBuildSettings.targetJvm
-import uk.gov.hmrc.SbtAutoBuildPlugin
-import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
-import bloop.integrations.sbt.BloopDefaults
 
 val appName = "api-platform-common-domain"
 
-val scala2_13 = "2.13.12"
+Global / bloopAggregateSourceDependencies := true
+Global / bloopExportJarClassifiers := Some(Set("sources"))
 
 ThisBuild / majorVersion     := 0
 ThisBuild / isPublicArtefact := true
-ThisBuild / scalaVersion     := scala2_13
+ThisBuild / scalaVersion     := "3.3.3"
 
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 
@@ -21,7 +16,8 @@ ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 lazy val library = (project in file("."))
   .settings(
-    publish / skip := true
+    publish / skip := true,
+    scalacOptions += "-explain"
   )
   .aggregate(
     apiPlatformCommonDomain, apiPlatformTestCommonDomain
@@ -30,6 +26,7 @@ lazy val library = (project in file("."))
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
   .settings(
     libraryDependencies ++= LibraryDependencies.commonDomain,
+    scalacOptions += "-explain",
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
 
@@ -47,6 +44,7 @@ lazy val apiPlatformTestCommonDomain = Project("api-platform-test-common-domain"
   )
   .settings(
     libraryDependencies ++= LibraryDependencies.root,
+    scalacOptions += "-explain",
     ScoverageKeys.coverageEnabled := false,
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
@@ -63,5 +61,3 @@ commands ++= Seq(
   Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageOff" :: "coverageAggregate" :: state }
 )
 
-
-Global / bloopAggregateSourceDependencies := true

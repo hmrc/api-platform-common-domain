@@ -35,7 +35,7 @@ object ApiIdentifier {
   private val writesApiIdentifier: OWrites[ApiIdentifier] = (
     (JsPath \ "context").write[ApiContext] and
       (JsPath \ "version").write[ApiVersionNbr] // TODO - change to versionNbr once all readers are safe
-  )(unlift(ApiIdentifier.unapply))
+  )(t => Tuple.fromProductTyped(t))
 
   implicit val format: OFormat[ApiIdentifier] = OFormat[ApiIdentifier](readsApiIdentifier, writesApiIdentifier)
 

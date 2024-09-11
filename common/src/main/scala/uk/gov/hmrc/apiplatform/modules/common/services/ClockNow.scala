@@ -22,11 +22,11 @@ import uk.gov.hmrc.apiplatform.modules.common.services.DateTimeHelper._
 
 trait ClockNow {
 
-  def precise(): Instant = Instant.now(clock)
+  def precise: Instant = Instant.now(clock)
 
-  def now(): LocalDateTime = LocalDateTime.now(clock).truncate()
+  def now: LocalDateTime = LocalDateTime.now(clock).truncate()
 
-  def instant(): Instant = Instant.now(clock).truncate()
+  def instant: Instant = Instant.now(clock).truncate()
 
   def clock: Clock
 }

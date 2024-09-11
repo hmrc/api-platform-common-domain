@@ -24,7 +24,7 @@ import uk.gov.hmrc.apiplatform.modules.common.services.ClockNow
 class ClockWithInstants(instants: Queue[Instant]) extends ClockNow {
   val clock = FixedClock.clock
 
-  override def precise(): Instant = {
+  override def precise: Instant = {
     instants.dequeue()
   }
 }
