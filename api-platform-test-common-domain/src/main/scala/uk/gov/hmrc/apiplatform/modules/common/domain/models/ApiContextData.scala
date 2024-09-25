@@ -17,7 +17,7 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 object ApiContextData {
-  val contextA = ApiContext("/test/contextA")
-  val contextB = ApiContext("/test/contextB")
-  val contextC = ApiContext("/test/contextC")
+  val contextA = ApiContext("test/contextA")
+  val contextB = ApiContext("test/contextB")
+  val contextC = ApiContext("test/contextC")
 }
