@@ -16,14 +16,27 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-object ActorData {
-  import LaxEmailAddressData._
+object ActorData extends LaxEmailAddressFixture {
 
-  val collaboratorA = Actors.AppCollaborator(emailA)
-  val collaboratorB = Actors.AppCollaborator(emailB)
-  val collaboratorC = Actors.AppCollaborator(emailC)
+  object Collaborators {
+    val one   = Actors.AppCollaborator(emailOne)
+    val two   = Actors.AppCollaborator(emailTwo)
+    val three = Actors.AppCollaborator(emailThree)
+  }
 
-  val gatekeeperA = Actors.GatekeeperUser("A surname")
-  val gatekeeperB = Actors.GatekeeperUser("B surname")
-  val gatekeeperC = Actors.GatekeeperUser("C surname")
+  object Gatekeepers {
+    val one   = Actors.GatekeeperUser("A surname")
+    val two   = Actors.GatekeeperUser("B surname")
+    val three = Actors.GatekeeperUser("C surname")
+  }
+}
+
+trait ActorFixture {
+  val collaboratorActorOne   = ActorData.Collaborators.one
+  val collaboratorActorTwo   = ActorData.Collaborators.two
+  val collaboratorActorThree = ActorData.Collaborators.three
+
+  val gatekeeperActorOne   = ActorData.Gatekeepers.one
+  val gatekeeperActorTwo   = ActorData.Gatekeepers.two
+  val gatekeeperActorThree = ActorData.Gatekeepers.three
 }

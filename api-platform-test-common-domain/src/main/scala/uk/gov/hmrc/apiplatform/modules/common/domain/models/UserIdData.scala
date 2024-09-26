@@ -17,7 +17,13 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 object UserIdData {
-  val idA = UserId.random
-  val idB = UserId.random
-  val idC = UserId.random
+  val one   = UserId.random
+  val two   = UserId.random
+  val three = UserId.random
+}
+
+trait UserIdFixture {
+  val userIdOne   = UserIdData.one
+  val userIdTwo   = UserIdData.two
+  val userIdThree = UserIdData.three
 }

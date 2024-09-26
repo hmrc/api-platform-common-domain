@@ -27,15 +27,14 @@ lazy val library = (project in file("."))
     apiPlatformCommonDomain, apiPlatformTestCommonDomain
   )
 
+
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
   .settings(
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
-
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
     Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "test" / "scala",
-    
     Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
   )
   .disablePlugins(JUnitXmlReportPlugin)
@@ -43,12 +42,11 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
 
 lazy val apiPlatformTestCommonDomain = Project("api-platform-test-common-domain", file("api-platform-test-common-domain"))
   .dependsOn(
-    apiPlatformCommonDomain
+    apiPlatformCommonDomain % "compile"
   )
   .settings(
     libraryDependencies ++= LibraryDependencies.root,
     ScoverageKeys.coverageEnabled := false,
-    Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
   )
   .disablePlugins(JUnitXmlReportPlugin)

@@ -17,8 +17,15 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 object ApiVersionNbrData {
-  val versionNbr1   = ApiVersionNbr("1.0")
-  val versionNbr1_1 = ApiVersionNbr("1.1")
-  val versionNbr2   = ApiVersionNbr("2.0")
-  val versionNbr3   = ApiVersionNbr("3.0")
+  val one         = ApiVersionNbr("1.0")
+  val onePointOne = ApiVersionNbr("1.1")
+  val two         = ApiVersionNbr("2.0")
+  val three       = ApiVersionNbr("3.0")
+}
+
+trait ApiVersionNbrFixture {
+  val apiVersionNbrOne         = ApiVersionNbrData.one
+  val apiVersionNbrOnePointOne = ApiVersionNbrData.onePointOne
+  val apiVersionNbrTwo         = ApiVersionNbrData.two
+  val apiVersionNbrThree       = ApiVersionNbrData.three
 }

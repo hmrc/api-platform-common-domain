@@ -17,7 +17,13 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 object LaxEmailAddressData {
-  val emailA = LaxEmailAddress("a@example.com")
-  val emailB = LaxEmailAddress("b@example.com")
-  val emailC = LaxEmailAddress("c@example.com")
+  val one   = LaxEmailAddress("a@example.com")
+  val two   = LaxEmailAddress("b@example.com")
+  val three = LaxEmailAddress("c@example.com")
+}
+
+trait LaxEmailAddressFixture {
+  val emailOne   = LaxEmailAddressData.one
+  val emailTwo   = LaxEmailAddressData.two
+  val emailThree = LaxEmailAddressData.three
 }

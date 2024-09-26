@@ -28,6 +28,10 @@ class LaxEmailAddressSpec extends BaseJsonFormattersSpec {
   val bobSmithEmailAddress = LaxEmailAddress("bob@smith.com")
 
   "LaxEmailAddress" when {
+    "toString exposes the inner value and not the default case class toString" in {
+      bobSmithEmailAddress.toString() shouldBe "bob@smith.com"
+    }
+
     "creating a lax email address" should {
       "creating a lax email address forces to lower case" in {
         LaxEmailAddress("BOB@smith.com").text shouldBe "bob@smith.com"

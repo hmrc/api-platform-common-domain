@@ -17,7 +17,13 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 object ApiContextData {
-  val contextA = ApiContext("test/contextA")
-  val contextB = ApiContext("test/contextB")
-  val contextC = ApiContext("test/contextC")
+  val one   = ApiContext("test/contextA")
+  val two   = ApiContext("test/contextB")
+  val three = ApiContext("test/contextC")
+}
+
+trait ApiContextFixture {
+  val apiContextOne   = ApiContextData.one
+  val apiContextTwo   = ApiContextData.two
+  val apiContextThree = ApiContextData.three
 }
