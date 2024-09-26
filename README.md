@@ -14,8 +14,11 @@ This code is open source software licensed under the [Apache 2.0 License]("http:
 ### api-platform-common-domain
 Published - contains the common domain model classes for use by other code AND includes the common project classes that would otherwise need their own library.
 
-### api-platform-test-common-domain
+### api-platform-common-domain-fixtures
 Published - provides test fixtures for all classes in the common domain
+
+### api-platform-common-domain-test
+Tests the api platform common domain - done as a project to allow using test fixtures from test common domain in the testing
 
 ### common
 Not published individually but contained within api-platform-common-domain

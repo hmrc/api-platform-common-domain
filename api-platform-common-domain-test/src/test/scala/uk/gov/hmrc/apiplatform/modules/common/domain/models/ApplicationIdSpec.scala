@@ -20,18 +20,14 @@ import play.api.libs.json.{JsString, Json}
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class ApplicationIdSpec extends BaseJsonFormattersSpec {
-  val anAppId = ApplicationId.random
-
+class ApplicationIdSpec extends BaseJsonFormattersSpec with ApplicationIdFixture {
   "ApplicationId" should {
     "toString" in {
-      anAppId.toString() shouldBe anAppId.value.toString()
+      applicationIdOne.toString() shouldBe applicationIdOne.value.toString()
     }
 
     "apply raw text" in {
-      val in = ApplicationId.random
-
-      ApplicationId.apply(in.value.toString()) shouldBe Some(in)
+      ApplicationId.apply(applicationIdOne.value.toString()) shouldBe Some(applicationIdOne)
     }
 
     "apply raw text fails when not valid" in {
@@ -39,9 +35,7 @@ class ApplicationIdSpec extends BaseJsonFormattersSpec {
     }
 
     "unsafeApply text" in {
-      val in = ApplicationId.random
-
-      ApplicationId.unsafeApply(in.value.toString()) shouldBe in
+      ApplicationId.unsafeApply(applicationIdOne.value.toString()) shouldBe applicationIdOne
     }
 
     "unsafeApply raw text throws when not valid" in {
@@ -51,11 +45,11 @@ class ApplicationIdSpec extends BaseJsonFormattersSpec {
     }
 
     "convert to json" in {
-      Json.toJson(anAppId) shouldBe JsString(anAppId.value.toString())
+      Json.toJson(applicationIdOne) shouldBe JsString(applicationIdOne.value.toString())
     }
 
     "read from json" in {
-      testFromJson[ApplicationId](s""""${anAppId.value.toString}"""")(anAppId)
+      testFromJson[ApplicationId](s""""${applicationIdOne.value.toString}"""")(applicationIdOne)
     }
   }
 }

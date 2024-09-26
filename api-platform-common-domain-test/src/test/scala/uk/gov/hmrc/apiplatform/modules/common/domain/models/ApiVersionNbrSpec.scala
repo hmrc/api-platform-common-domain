@@ -22,11 +22,9 @@ import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class ApiVersionNbrSpec extends BaseJsonFormattersSpec {
+class ApiVersionNbrSpec extends BaseJsonFormattersSpec with ApiVersionNbrFixture {
 
   "ApiVersionNbr" should {
-    val example = ApiVersionNbr("1.5")
-
     "sort accordingly" in {
       val sorted = List("1.0", "1.1", "2.0", "2.1", "3", "10", "10.1")
 
@@ -36,7 +34,7 @@ class ApiVersionNbrSpec extends BaseJsonFormattersSpec {
     }
 
     "convert to string" in {
-      example.toString() shouldBe "1.5"
+      apiVersionNbrOnePointOne.toString() shouldBe "1.1"
     }
 
     "cover random call" in {
@@ -46,11 +44,11 @@ class ApiVersionNbrSpec extends BaseJsonFormattersSpec {
     }
 
     "read from Json" in {
-      testFromJson[ApiVersionNbr](s""""1.5"""")(example)
+      testFromJson[ApiVersionNbr](s""""1.1"""")(apiVersionNbrOnePointOne)
     }
 
     "write to Json" in {
-      Json.toJson[ApiVersionNbr](example) shouldBe JsString("1.5")
+      Json.toJson[ApiVersionNbr](apiVersionNbrOnePointOne) shouldBe JsString("1.1")
     }
 
     val rawText                         = """{"version1":"text1","version2":"text2"}"""

@@ -20,19 +20,18 @@ import play.api.libs.json.{JsString, Json}
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class ClientIdSpec extends BaseJsonFormattersSpec {
-  val aClientId = ClientId.random
+class ClientIdSpec extends BaseJsonFormattersSpec with ClientIdFixture {
   "ClientId" should {
     "toString works" in {
-      aClientId.toString() shouldBe aClientId.value
+      clientIdOne.toString() shouldBe clientIdOne.value
     }
 
     "convert to json" in {
-      Json.toJson(aClientId) shouldBe JsString(aClientId.value.toString())
+      Json.toJson(clientIdOne) shouldBe JsString(clientIdOne.value.toString())
     }
 
     "read from json" in {
-      testFromJson[ClientId](s""""${aClientId.value.toString}"""")(aClientId)
+      testFromJson[ClientId](s""""${clientIdOne.value.toString}"""")(clientIdOne)
     }
   }
 }

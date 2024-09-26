@@ -24,7 +24,7 @@ lazy val library = (project in file("."))
     publish / skip := true
   )
   .aggregate(
-    apiPlatformCommonDomain, apiPlatformTestCommonDomain
+    apiPlatformCommonDomain, apiPlatformCommonDomainFixtures, apiPlatformCommonDomainTest
   )
 
 
@@ -33,14 +33,11 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
-    Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala",
-    Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "test" / "scala",
-    Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
+    Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala"
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
-
-lazy val apiPlatformTestCommonDomain = Project("api-platform-test-common-domain", file("api-platform-test-common-domain"))
+lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-fixtures", file("api-platform-common-domain-fixtures"))
   .dependsOn(
     apiPlatformCommonDomain % "compile"
   )
@@ -51,6 +48,21 @@ lazy val apiPlatformTestCommonDomain = Project("api-platform-test-common-domain"
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
+
+lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test", file("api-platform-common-domain-test"))
+  .dependsOn(
+    apiPlatformCommonDomain,
+    apiPlatformCommonDomainFixtures
+  )
+  .settings(
+    publish / skip := true,
+    libraryDependencies ++= LibraryDependencies.root,
+    ScoverageSettings(),
+    Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
+    Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "test" / "scala",
+    Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
+  )
+  .disablePlugins(JUnitXmlReportPlugin)
 
 commands ++= Seq(
   Command.command("run-all-tests") { state => "test" :: state },

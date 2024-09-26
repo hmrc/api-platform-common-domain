@@ -20,12 +20,11 @@ import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class UserIdSpec extends BaseJsonFormattersSpec {
-  val aUserId = UserId.random
+class UserIdSpec extends BaseJsonFormattersSpec with UserIdFixture {
 
   "UserId" should {
     "toString" in {
-      aUserId.toString() shouldBe aUserId.value.toString()
+      userIdOne.toString() shouldBe userIdOne.value.toString()
     }
 
     "generate a random value" in {
@@ -33,9 +32,7 @@ class UserIdSpec extends BaseJsonFormattersSpec {
     }
 
     "apply raw text" in {
-      val in = UserId.random
-
-      UserId.apply(in.value.toString()) shouldBe Some(in)
+      UserId.apply(userIdOne.value.toString()) shouldBe Some(userIdOne)
     }
 
     "apply raw text fails when not valid" in {
@@ -43,9 +40,7 @@ class UserIdSpec extends BaseJsonFormattersSpec {
     }
 
     "unsafeApply text" in {
-      val in = UserId.random
-
-      UserId.unsafeApply(in.value.toString()) shouldBe in
+      UserId.unsafeApply(userIdOne.value.toString()) shouldBe userIdOne
     }
 
     "unsafeApply raw text throws when not valid" in {
@@ -55,11 +50,11 @@ class UserIdSpec extends BaseJsonFormattersSpec {
     }
 
     "convert to json" in {
-      Json.toJson(aUserId) shouldBe JsString(aUserId.value.toString())
+      Json.toJson(userIdOne) shouldBe JsString(userIdOne.value.toString())
     }
 
     "read from json" in {
-      testFromJson[UserId](s""""${aUserId.value.toString}"""")(aUserId)
+      testFromJson[UserId](s""""${userIdOne.value.toString}"""")(userIdOne)
     }
   }
 }
