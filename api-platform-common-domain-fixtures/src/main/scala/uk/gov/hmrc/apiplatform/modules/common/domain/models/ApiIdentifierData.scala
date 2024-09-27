@@ -23,7 +23,7 @@ object ApiIdentifierData extends ApiContextFixtures with ApiVersionNbrFixtures {
   val four  = ApiIdentifier(apiContextTwo, apiVersionNbrTwo)
 }
 
-trait ApiIdentifierFixture extends ApiContextFixtures with ApiVersionNbrFixtures {
+trait ApiIdentifierFixtures extends ApiContextFixtures with ApiVersionNbrFixtures {
   val apiIdentifierOne   = ApiIdentifierData.one
   val apiIdentifierTwo   = ApiIdentifierData.two
   val apiIdentifierThree = ApiIdentifierData.three
