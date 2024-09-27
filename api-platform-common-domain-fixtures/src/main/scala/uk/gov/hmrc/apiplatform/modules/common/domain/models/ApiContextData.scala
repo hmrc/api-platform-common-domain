@@ -22,7 +22,7 @@ object ApiContextData {
   val three = ApiContext("test/contextC")
 }
 
-trait ApiContextFixture {
+trait ApiContextFixtures {
   val apiContextOne   = ApiContextData.one
   val apiContextTwo   = ApiContextData.two
   val apiContextThree = ApiContextData.three

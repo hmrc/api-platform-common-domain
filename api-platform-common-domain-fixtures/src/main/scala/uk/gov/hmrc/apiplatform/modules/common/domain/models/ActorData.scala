@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-object ActorData extends LaxEmailAddressFixture {
+object ActorData extends LaxEmailAddressFixtures {
 
   object Collaborators {
     val one   = Actors.AppCollaborator(emailOne)
@@ -31,7 +31,7 @@ object ActorData extends LaxEmailAddressFixture {
   }
 }
 
-trait ActorFixture {
+trait ActorFixtures {
   val collaboratorActorOne   = ActorData.Collaborators.one
   val collaboratorActorTwo   = ActorData.Collaborators.two
   val collaboratorActorThree = ActorData.Collaborators.three

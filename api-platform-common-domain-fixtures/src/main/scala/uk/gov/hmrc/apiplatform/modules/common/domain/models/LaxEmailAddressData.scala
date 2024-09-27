@@ -22,7 +22,7 @@ object LaxEmailAddressData {
   val three = LaxEmailAddress("c@example.com")
 }
 
-trait LaxEmailAddressFixture {
+trait LaxEmailAddressFixtures {
   val emailOne   = LaxEmailAddressData.one
   val emailTwo   = LaxEmailAddressData.two
   val emailThree = LaxEmailAddressData.three

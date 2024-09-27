@@ -20,7 +20,7 @@ import play.api.libs.json.{JsString, Json}
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class ApplicationIdSpec extends BaseJsonFormattersSpec with ApplicationIdFixture {
+class ApplicationIdSpec extends BaseJsonFormattersSpec with ApplicationIdFixtures {
   "ApplicationId" should {
     "toString" in {
       applicationIdOne.toString() shouldBe applicationIdOne.value.toString()

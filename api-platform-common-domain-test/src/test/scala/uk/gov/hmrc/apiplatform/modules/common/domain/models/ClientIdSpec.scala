@@ -20,7 +20,7 @@ import play.api.libs.json.{JsString, Json}
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class ClientIdSpec extends BaseJsonFormattersSpec with ClientIdFixture {
+class ClientIdSpec extends BaseJsonFormattersSpec with ClientIdFixtures {
   "ClientId" should {
     "toString works" in {
       clientIdOne.toString() shouldBe clientIdOne.value

@@ -16,14 +16,14 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-object ApiIdentifierData extends ApiContextFixture with ApiVersionNbrFixture {
+object ApiIdentifierData extends ApiContextFixtures with ApiVersionNbrFixtures {
   val one   = ApiIdentifier(apiContextOne, apiVersionNbrOne)
   val two   = ApiIdentifier(apiContextOne, apiVersionNbrOnePointOne)
   val three = ApiIdentifier(apiContextTwo, apiVersionNbrOne)
   val four  = ApiIdentifier(apiContextTwo, apiVersionNbrTwo)
 }
 
-trait ApiIdentifierFixture extends ApiContextFixture with ApiVersionNbrFixture {
+trait ApiIdentifierFixture extends ApiContextFixtures with ApiVersionNbrFixtures {
   val apiIdentifierOne   = ApiIdentifierData.one
   val apiIdentifierTwo   = ApiIdentifierData.two
   val apiIdentifierThree = ApiIdentifierData.three

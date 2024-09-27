@@ -22,7 +22,7 @@ import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
-class ApiVersionNbrSpec extends BaseJsonFormattersSpec with ApiVersionNbrFixture {
+class ApiVersionNbrSpec extends BaseJsonFormattersSpec with ApiVersionNbrFixtures {
 
   "ApiVersionNbr" should {
     "sort accordingly" in {

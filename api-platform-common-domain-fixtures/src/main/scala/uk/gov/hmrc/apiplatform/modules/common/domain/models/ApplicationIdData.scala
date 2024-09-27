@@ -22,7 +22,7 @@ object ApplicationIdData {
   val three = ApplicationId.random
 }
 
-trait ApplicationIdFixture {
+trait ApplicationIdFixtures {
   val applicationIdOne   = ApplicationIdData.one
   val applicationIdTwo   = ApplicationIdData.two
   val applicationIdThree = ApplicationIdData.three

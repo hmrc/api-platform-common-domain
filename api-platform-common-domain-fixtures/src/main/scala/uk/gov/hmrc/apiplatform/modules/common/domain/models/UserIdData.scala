@@ -22,7 +22,7 @@ object UserIdData {
   val three = UserId.random
 }
 
-trait UserIdFixture {
+trait UserIdFixtures {
   val userIdOne   = UserIdData.one
   val userIdTwo   = UserIdData.two
   val userIdThree = UserIdData.three

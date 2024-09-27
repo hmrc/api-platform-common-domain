@@ -23,7 +23,7 @@ object ApiVersionNbrData {
   val three       = ApiVersionNbr("3.0")
 }
 
-trait ApiVersionNbrFixture {
+trait ApiVersionNbrFixtures {
   val apiVersionNbrOne         = ApiVersionNbrData.one
   val apiVersionNbrOnePointOne = ApiVersionNbrData.onePointOne
   val apiVersionNbrTwo         = ApiVersionNbrData.two
