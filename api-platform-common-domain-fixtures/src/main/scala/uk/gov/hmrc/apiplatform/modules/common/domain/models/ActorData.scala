@@ -16,12 +16,12 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-object ActorData extends LaxEmailAddressFixtures {
+object ActorData {
 
   object Collaborators {
-    val one   = Actors.AppCollaborator(emailOne)
-    val two   = Actors.AppCollaborator(emailTwo)
-    val three = Actors.AppCollaborator(emailThree)
+    val one   = Actors.AppCollaborator(LaxEmailAddressData.one)
+    val two   = Actors.AppCollaborator(LaxEmailAddressData.two)
+    val three = Actors.AppCollaborator(LaxEmailAddressData.three)
   }
 
   object Gatekeepers {
