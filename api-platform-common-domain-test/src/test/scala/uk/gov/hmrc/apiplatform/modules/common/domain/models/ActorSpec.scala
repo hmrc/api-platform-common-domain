@@ -112,6 +112,23 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
     }
 
+    "given a process actor" should {
+      "produce json" in {
+        testToJson[Actor](Actors.Process("Publisher"))(
+          ("actorType" -> "PROCESS"),
+          ("name"      -> "Publisher")
+        )
+      }
+
+      "read json" in {
+        testFromJson[Actor]("""{"actorType":"PROCESS","name":"Publisher"}""")(Actors.Process("Publisher"))
+      }
+
+      "return correct actor type" in {
+        ActorType.actorType(Actors.Process("Publisher")) shouldBe ActorType.PROCESS
+      }
+    }
+
     "given an unknown actor" should {
       "produce json" in {
         testToJson[Actor](Actors.Unknown)(

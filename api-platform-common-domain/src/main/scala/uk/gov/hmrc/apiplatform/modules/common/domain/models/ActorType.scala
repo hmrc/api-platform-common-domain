@@ -30,14 +30,17 @@ object ActorType {
 
   case object SCHEDULED_JOB extends ActorType
 
+  case object PROCESS extends ActorType
+
   case object UNKNOWN extends ActorType
 
-  val values: Set[ActorType] = Set(COLLABORATOR, GATEKEEPER, SCHEDULED_JOB, UNKNOWN)
+  val values: Set[ActorType] = Set(COLLABORATOR, GATEKEEPER, SCHEDULED_JOB, PROCESS, UNKNOWN)
 
   val displayText: ActorType => String = _ match {
     case COLLABORATOR  => "Application Collaborator"
     case GATEKEEPER    => "Gatekeeper User"
     case SCHEDULED_JOB => "Scheduled Job"
+    case PROCESS       => "Process"
     case UNKNOWN       => "Unknown"
   }
 
@@ -55,6 +58,7 @@ object ActorType {
     case _: Actors.GatekeeperUser  => GATEKEEPER
     case _: Actors.AppCollaborator => COLLABORATOR
     case _: Actors.ScheduledJob    => SCHEDULED_JOB
+    case _: Actors.Process         => PROCESS
     case _                         => UNKNOWN
   }
 

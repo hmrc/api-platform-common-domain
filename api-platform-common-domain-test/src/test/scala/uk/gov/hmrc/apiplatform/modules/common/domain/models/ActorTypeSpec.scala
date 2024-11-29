@@ -30,6 +30,7 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
       (ActorType.COLLABORATOR, "collaborator", "Application Collaborator"),
       (ActorType.GATEKEEPER, "gatekeeper", "Gatekeeper User"),
       (ActorType.SCHEDULED_JOB, "scheduled_job", "Scheduled Job"),
+      (ActorType.PROCESS, "process", "Process"),
       (ActorType.UNKNOWN, "unknown", "Unknown")
     )
 
