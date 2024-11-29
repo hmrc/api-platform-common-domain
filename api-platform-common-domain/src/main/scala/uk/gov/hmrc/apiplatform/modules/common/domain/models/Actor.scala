@@ -43,6 +43,13 @@ object Actors {
     */
   case class ScheduledJob(jobId: String) extends Actor
 
+  /** A process that has been triggered by something other than a schedule
+    *
+    * @param name
+    *   the process name
+    */
+  case class Process(name: String) extends Actor
+
   /** Unknown source - probably 3rd party code such as PPNS invocations
     */
   case object Unknown extends Actor
@@ -57,16 +64,19 @@ object Actor {
   implicit val actorsCollaboratorWrites: OWrites[Actors.AppCollaborator]  = Json.writes[Actors.AppCollaborator]
   implicit val actorsGatekeeperUserWrites: OWrites[Actors.GatekeeperUser] = Json.writes[Actors.GatekeeperUser]
   implicit val actorsScheduledJobWrites: OWrites[Actors.ScheduledJob]     = Json.writes[Actors.ScheduledJob]
+  implicit val actorsProcessJobWrites: OWrites[Actors.Process]            = Json.writes[Actors.Process]
 
   implicit val actorsCollaboratorReads: Reads[Actors.AppCollaborator]  =
     ((JsPath \ "id").read[String] or (JsPath \ "email").read[String]).map(s => Actors.AppCollaborator(LaxEmailAddress(s)))
   implicit val actorsGatekeeperUserReads: Reads[Actors.GatekeeperUser] = ((JsPath \ "id").read[String] or (JsPath \ "user").read[String]).map(Actors.GatekeeperUser(_))
   implicit val actorsScheduledJobReads: Reads[Actors.ScheduledJob]     = ((JsPath \ "id").read[String] or (JsPath \ "jobId").read[String]).map(Actors.ScheduledJob(_))
+  implicit val actorsProcessJobReads: Reads[Actors.Process]            = Json.reads[Actors.Process]
 
   implicit val format: OFormat[Actor] = Union.from[Actor]("actorType")
     .and[Actors.AppCollaborator](ActorType.COLLABORATOR.toString)
     .and[Actors.GatekeeperUser](ActorType.GATEKEEPER.toString)
     .and[Actors.ScheduledJob](ActorType.SCHEDULED_JOB.toString)
+    .and[Actors.Process](ActorType.PROCESS.toString)
     .andType[Actors.Unknown.type](ActorType.UNKNOWN.toString, () => Actors.Unknown)
     .format
 }
