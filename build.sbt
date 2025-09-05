@@ -8,7 +8,7 @@ import bloop.integrations.sbt.BloopDefaults
 
 val appName = "api-platform-common-domain"
 
-val scala2_13 = "2.13.12"
+val scala2_13 = "2.13.16"
 
 ThisBuild / majorVersion     := 0
 ThisBuild / isPublicArtefact := true
