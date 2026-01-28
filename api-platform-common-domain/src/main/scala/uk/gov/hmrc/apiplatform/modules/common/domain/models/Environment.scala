@@ -25,8 +25,8 @@ sealed trait Environment {
 }
 
 object Environment {
-  final case object PRODUCTION extends Environment
-  final case object SANDBOX    extends Environment
+  case object PRODUCTION extends Environment
+  case object SANDBOX    extends Environment
 
   val values = Set[Environment](PRODUCTION, SANDBOX)
 

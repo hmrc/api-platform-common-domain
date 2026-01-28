@@ -40,7 +40,7 @@ object ApiVersionNbr {
             .takeWhile(c => Character.isDigit(c))
             .toInt
         } catch {
-          case e: NumberFormatException => Integer.MIN_VALUE
+          case _: NumberFormatException => Integer.MIN_VALUE
         }
       val splitXMajor                                         = asInt(x, 0)
       val splitYMajor                                         = asInt(y, 0)

@@ -24,9 +24,9 @@ trait SimpleTimer {
   self: ClockNow =>
 
   def timeThis[A](fn: () => A): TimedValue[A] = {
-    val startTime: Instant = precise()
+    val startTime: Instant = precise
     val output: A          = fn()
-    val endTime: Instant   = precise()
+    val endTime: Instant   = precise
     val duration           = Duration.between(startTime, endTime)
 
     TimedValue(output, duration)

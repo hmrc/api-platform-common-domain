@@ -9,10 +9,12 @@ import bloop.integrations.sbt.BloopDefaults
 val appName = "api-platform-common-domain"
 
 val scala2_13 = "2.13.16"
+val scala3 = "3.3.7"
 
 ThisBuild / majorVersion     := 0
 ThisBuild / isPublicArtefact := true
 ThisBuild / scalaVersion     := scala2_13
+ThisBuild / crossScalaVersions := Seq(scala2_13, scala3)
 
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 
@@ -65,12 +67,12 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
   .disablePlugins(JUnitXmlReportPlugin)
 
 commands ++= Seq(
-  Command.command("run-all-tests") { state => "test" :: state },
+  Command.command("run-all-tests") { state => "+test" :: state },
 
-  Command.command("clean-and-test") { state => "clean" :: "compile" :: "run-all-tests" :: state },
+  Command.command("clean-and-test") { state => "+clean" :: "+compile" :: "run-all-tests" :: state },
 
   // Coverage does not need compile !
-  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageOff" :: "coverageAggregate" :: state }
+  Command.command("pre-commit") { state => "+clean" :: "+scalafmtAll" :: "+scalafixAll" :: "+coverage" :: "run-all-tests" :: "+coverageOff" :: "+coverageAggregate" :: state }
 )
 
 
