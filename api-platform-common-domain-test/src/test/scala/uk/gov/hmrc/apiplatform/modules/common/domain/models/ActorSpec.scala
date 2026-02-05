@@ -56,7 +56,7 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
 
       "return correct actor type" in {
-        ActorType.actorType(Actors.GatekeeperUser(bobSmithUserName)) shouldBe ActorType.GATEKEEPER
+        Actors.GatekeeperUser(bobSmithUserName).actorType shouldBe ActorType.Gatekeeper
       }
     }
 
@@ -87,7 +87,7 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
 
       "return correct actor type" in {
-        ActorType.actorType(Actors.AppCollaborator(bobSmithEmailAddress)) shouldBe ActorType.COLLABORATOR
+        Actors.AppCollaborator(bobSmithEmailAddress).actorType shouldBe ActorType.Collaborator
       }
     }
 
@@ -108,7 +108,7 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
 
       "return correct actor type" in {
-        ActorType.actorType(Actors.ScheduledJob("DeleteAllAppsBwaHaHa")) shouldBe ActorType.SCHEDULED_JOB
+        Actors.ScheduledJob("DeleteAllAppsBwaHaHa").actorType shouldBe ActorType.Scheduled_Job
       }
     }
 
@@ -125,7 +125,7 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
 
       "return correct actor type" in {
-        ActorType.actorType(Actors.Process("Publisher")) shouldBe ActorType.PROCESS
+        Actors.actorType(Actors.Process("Publisher")) shouldBe ActorType.Process
       }
     }
 
@@ -141,7 +141,7 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
 
       "return correct actor type" in {
-        ActorType.actorType(Actors.Unknown) shouldBe ActorType.UNKNOWN
+        Actors.Unknown.actorType shouldBe ActorType.Unknown
       }
     }
 

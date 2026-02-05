@@ -33,7 +33,7 @@ class FutureTimerSpec extends HmrcSpec {
       val fakedClockTimer = new FakedClockTimer(Queue(FixedClock.instant, FixedClock.instant.plusMillis(20000)))
 
       lazy val makeDelayedFuture = Future {
-        Thread.sleep(1000)
+        Thread.sleep(1000L)
         1
       }
 
@@ -48,7 +48,7 @@ class FutureTimerSpec extends HmrcSpec {
 
       lazy val makeDelayedFuture = Future {
         println("Running future")
-        Thread.sleep(2100)
+        Thread.sleep(2500L)
         55
       }
 

@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import play.api.libs.json.{JsString, Json}
+import play.api.libs.json._
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
@@ -50,6 +50,12 @@ class ApplicationIdSpec extends BaseJsonFormattersSpec with ApplicationIdFixture
 
     "read from json" in {
       testFromJson[ApplicationId](s""""${applicationIdOne.value.toString}"""")(applicationIdOne)
+    }
+
+    "read rubbish from json" in {
+      Json.fromJson[ApplicationId](JsString("XYZ")) should matchPattern {
+        case _: JsError =>
+      }
     }
   }
 }

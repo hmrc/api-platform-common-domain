@@ -27,23 +27,23 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
   val values =
     Table(
       ("Source", "text", "display text"),
-      (ActorType.COLLABORATOR, "collaborator", "Application Collaborator"),
-      (ActorType.GATEKEEPER, "gatekeeper", "Gatekeeper User"),
-      (ActorType.SCHEDULED_JOB, "scheduled_job", "Scheduled Job"),
-      (ActorType.PROCESS, "process", "Process"),
-      (ActorType.UNKNOWN, "unknown", "Unknown")
+      (ActorType.Collaborator, "collaborator", "Application Collaborator"),
+      (ActorType.Gatekeeper, "gatekeeper", "Gatekeeper User"),
+      (ActorType.Scheduled_Job, "scheduled_job", "Scheduled Job"),
+      (ActorType.Process, "process", "Process"),
+      (ActorType.Unknown, "unknown", "Unknown")
     )
 
   "ActorTypes" when {
     "displayText is good" in {
       forAll(values) { (s, _, d) =>
-        s.displayText shouldBe d
+        ActorType.displayText(s) shouldBe d
       }
     }
 
     "convert to string correctly" in {
       forAll(values) { (s, t, _) =>
-        s.toString() shouldBe t.toUpperCase()
+        s.toString() shouldBe t.split("_").map(_.capitalize).mkString("_")
       }
     }
 
@@ -56,8 +56,8 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
 
     "convert mixed case string to case object" in {
       forAll(values) { (s, t, _) =>
-        ActorType.apply(t.toUpperCase()) shouldBe Some(s)
-        ActorType.unsafeApply(t.toUpperCase()) shouldBe s
+        ActorType.apply(t) shouldBe Some(s)
+        ActorType.unsafeApply(t) shouldBe s
       }
     }
 
@@ -80,13 +80,13 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
 
     "read with text error from Json" in {
       intercept[Exception] {
-        testFromJson[ActorType](s""" "123" """)(ActorType.UNKNOWN)
+        testFromJson[ActorType](s""" "123" """)(ActorType.Unknown)
       }.getMessage() should include("123 is not a valid Actor Type")
     }
 
     "read with error from Json" in {
       intercept[Exception] {
-        testFromJson[ActorType](s"""123""")(ActorType.UNKNOWN)
+        testFromJson[ActorType](s"""123""")(ActorType.Unknown)
       }.getMessage() should include("Cannot parse Actor Type from '123'")
     }
 

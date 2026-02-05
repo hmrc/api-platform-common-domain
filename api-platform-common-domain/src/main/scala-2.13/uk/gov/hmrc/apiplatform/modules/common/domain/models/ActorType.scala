@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actor
 import uk.gov.hmrc.apiplatform.modules.common.domain.services.SealedTraitJsonFormatting
 
 sealed abstract class ActorType {
@@ -24,27 +23,27 @@ sealed abstract class ActorType {
 }
 
 object ActorType {
-  case object COLLABORATOR extends ActorType
+  case object Collaborator extends ActorType
 
-  case object GATEKEEPER extends ActorType
+  case object Gatekeeper extends ActorType
 
-  case object SCHEDULED_JOB extends ActorType
+  case object Scheduled_Job extends ActorType
 
-  case object PROCESS extends ActorType
+  case object Process extends ActorType
 
-  case object UNKNOWN extends ActorType
+  case object Unknown extends ActorType
 
-  val values: Set[ActorType] = Set(COLLABORATOR, GATEKEEPER, SCHEDULED_JOB, PROCESS, UNKNOWN)
+  val values: Set[ActorType] = Set(Collaborator, Gatekeeper, Scheduled_Job, Process, Unknown)
 
   val displayText: ActorType => String = _ match {
-    case COLLABORATOR  => "Application Collaborator"
-    case GATEKEEPER    => "Gatekeeper User"
-    case SCHEDULED_JOB => "Scheduled Job"
-    case PROCESS       => "Process"
-    case UNKNOWN       => "Unknown"
+    case Collaborator  => "Application Collaborator"
+    case Gatekeeper    => "Gatekeeper User"
+    case Scheduled_Job => "Scheduled Job"
+    case Process       => "Process"
+    case Unknown       => "Unknown"
   }
 
-  def apply(text: String): Option[ActorType] = ActorType.values.find(_.toString == text.toUpperCase)
+  def apply(text: String): Option[ActorType] = ActorType.values.find(_.toString.equalsIgnoreCase(text))
 
   def unsafeApply(text: String): ActorType = {
     apply(text).getOrElse(throw new RuntimeException(s"$text is not a valid Actor Type"))
@@ -52,14 +51,7 @@ object ActorType {
 
   import play.api.libs.json.Format
 
-  implicit val format: Format[ActorType] = SealedTraitJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_))
+  implicit val format: Format[ActorType] = SealedTraitJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_), at => at.toString.toUpperCase())
 
-  def actorType(a: Actor): ActorType = a match {
-    case _: Actors.GatekeeperUser  => GATEKEEPER
-    case _: Actors.AppCollaborator => COLLABORATOR
-    case _: Actors.ScheduledJob    => SCHEDULED_JOB
-    case _: Actors.Process         => PROCESS
-    case _                         => UNKNOWN
-  }
 
 }

@@ -13,8 +13,8 @@ val scala3 = "3.3.7"
 
 ThisBuild / majorVersion     := 0
 ThisBuild / isPublicArtefact := true
-ThisBuild / scalaVersion     := scala2_13
-ThisBuild / crossScalaVersions := Seq(scala2_13, scala3)
+ThisBuild / scalaVersion     := scala3
+ThisBuild / crossScalaVersions := Seq(scala3, scala2_13)
 
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 
@@ -23,6 +23,7 @@ ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 lazy val library = (project in file("."))
   .settings(
+    crossScalaVersions := Nil,
     publish / skip := true
   )
   .aggregate(
@@ -32,6 +33,7 @@ lazy val library = (project in file("."))
 
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
   .settings(
+    crossScalaVersions := Seq(scala3, scala2_13),
     libraryDependencies ++= LibraryDependencies.commonDomain,
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
@@ -44,6 +46,7 @@ lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-f
     apiPlatformCommonDomain % "compile"
   )
   .settings(
+    crossScalaVersions := Seq(scala3, scala2_13),
     libraryDependencies ++= LibraryDependencies.root,
     ScoverageKeys.coverageEnabled := false,
     Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
@@ -57,6 +60,7 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
     apiPlatformCommonDomainFixtures
   )
   .settings(
+    crossScalaVersions := Seq(scala3, scala2_13),
     publish / skip := true,
     libraryDependencies ++= LibraryDependencies.root,
     ScoverageSettings(),

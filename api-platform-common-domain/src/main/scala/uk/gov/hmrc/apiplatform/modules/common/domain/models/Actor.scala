@@ -18,9 +18,19 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 /** Actor refers to actors that triggered an event
   */
-sealed trait Actor
+sealed trait Actor {
+  val actorType: ActorType = Actors.actorType(this)
+}
 
 object Actors {
+
+  def actorType(a: Actor): ActorType = a match {
+    case _: Actors.GatekeeperUser  => ActorType.Gatekeeper
+    case _: Actors.AppCollaborator => ActorType.Collaborator
+    case _: Actors.ScheduledJob    => ActorType.Scheduled_Job
+    case _: Actors.Process         => ActorType.Process
+    case _                         => ActorType.Unknown
+  }
 
   /** A third party developer who is a collaborator on the application for the event this actor is responsible for triggering
     *
@@ -73,10 +83,10 @@ object Actor {
   implicit val actorsProcessJobReads: Reads[Actors.Process]            = Json.reads[Actors.Process]
 
   implicit val format: OFormat[Actor] = Union.from[Actor]("actorType")
-    .and[Actors.AppCollaborator](ActorType.COLLABORATOR.toString)
-    .and[Actors.GatekeeperUser](ActorType.GATEKEEPER.toString)
-    .and[Actors.ScheduledJob](ActorType.SCHEDULED_JOB.toString)
-    .and[Actors.Process](ActorType.PROCESS.toString)
-    .andType[Actors.Unknown.type](ActorType.UNKNOWN.toString, () => Actors.Unknown)
+    .and[Actors.AppCollaborator](ActorType.Collaborator.toString.toUpperCase)
+    .and[Actors.GatekeeperUser](ActorType.Gatekeeper.toString.toUpperCase)
+    .and[Actors.ScheduledJob](ActorType.Scheduled_Job.toString.toUpperCase)
+    .and[Actors.Process](ActorType.Process.toString.toUpperCase)
+    .andType[Actors.Unknown.type](ActorType.Unknown.toString.toUpperCase, () => Actors.Unknown)
     .format
 }
