@@ -27,11 +27,11 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
   val values =
     Table(
       ("Source", "text", "display text"),
-      (ActorType.Collaborator, "collaborator", "Application Collaborator"),
-      (ActorType.Gatekeeper, "gatekeeper", "Gatekeeper User"),
-      (ActorType.Scheduled_Job, "scheduled_job", "Scheduled Job"),
-      (ActorType.Process, "process", "Process"),
-      (ActorType.Unknown, "unknown", "Unknown")
+      (ActorType.Collaborator, "Collaborator", "Application Collaborator"),
+      (ActorType.Gatekeeper, "Gatekeeper", "Gatekeeper User"),
+      (ActorType.Scheduled_Job, "Scheduled_Job", "Scheduled Job"),
+      (ActorType.Process, "Process", "Process"),
+      (ActorType.Unknown, "Unknown", "Unknown")
     )
 
   "ActorTypes" when {
@@ -43,7 +43,7 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
 
     "convert to string correctly" in {
       forAll(values) { (s, t, _) =>
-        s.toString() shouldBe t.split("_").map(_.capitalize).mkString("_")
+        s.toString() shouldBe t
       }
     }
 

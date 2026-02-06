@@ -16,18 +16,21 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.services.SealedTraitJsonFormatting
+import uk.gov.hmrc.apiplatform.modules.common.domain.services.SimpleEnumJsonFormatting
+import javax.print.SimpleDoc
 
 enum ActorType:
   case Collaborator, Gatekeeper, Scheduled_Job, Process, Unknown
 
 object ActorType {
-  val displayText: ActorType => String = _ match {
-    case ActorType.Collaborator  => "Application Collaborator"
-    case ActorType.Gatekeeper    => "Gatekeeper User"
-    case ActorType.Scheduled_Job => "Scheduled Job"
-    case ActorType.Process       => "Process"
-    case ActorType.Unknown       => "Unknown"
+  extension (a: ActorType) {
+    def displayText: String = a match {
+      case ActorType.Collaborator  => "Application Collaborator"
+      case ActorType.Gatekeeper    => "Gatekeeper User"
+      case ActorType.Scheduled_Job => "Scheduled Job"
+      case ActorType.Process       => "Process"
+      case ActorType.Unknown       => "Unknown"
+    }
   }
 
   def apply(text: String): Option[ActorType] = ActorType.values.find(_.toString.equalsIgnoreCase(text))
@@ -38,6 +41,6 @@ object ActorType {
 
   import play.api.libs.json.Format
 
-  given Format[ActorType] = SealedTraitJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_), at => at.toString.toUpperCase())
+  given Format[ActorType] = SimpleEnumJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_), _.toString.toUpperCase())
 
 }

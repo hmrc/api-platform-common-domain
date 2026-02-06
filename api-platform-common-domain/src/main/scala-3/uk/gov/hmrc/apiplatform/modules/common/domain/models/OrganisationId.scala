@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,23 +19,23 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 import java.{util => ju}
 import scala.util.control.Exception._
 
-opaque type ApplicationId = ju.UUID
+opaque type OrganisationId = ju.UUID
 
-object ApplicationId {
+object OrganisationId {
   import play.api.libs.json._
 
-  extension (n: ApplicationId) {
+  extension (n: OrganisationId) {
     def value: String = n.toString()       // TODO - deprecate
   }
 
-  def apply(raw: String): Option[ApplicationId] = allCatch.opt(ApplicationId(ju.UUID.fromString(raw)))
-  def apply(uuid: ju.UUID): ApplicationId = uuid
+  def apply(raw: String): Option[OrganisationId] = allCatch.opt(OrganisationId(ju.UUID.fromString(raw)))
+  def apply(uuid: ju.UUID): OrganisationId = uuid
 
-  def unsafeApply(raw: String): ApplicationId = ApplicationId(raw).getOrElse(throw new RuntimeException(s"Cannot parse ApplicationId from '$raw'"))
+  def unsafeApply(raw: String): OrganisationId = OrganisationId(raw).getOrElse(throw new RuntimeException(s"Cannot parse OrganisationId from '$raw'"))
 
-  given Format[ApplicationId]    = Format(Reads.UUIDReader(true), Writes.UuidWrites)
+  given Format[OrganisationId]    = Format(Reads.UUIDReader(true), Writes.UuidWrites)
   
 // $COVERAGE-OFF$
-  def random: ApplicationId = ApplicationId(ju.UUID.randomUUID)
+  def random: OrganisationId = OrganisationId(ju.UUID.randomUUID)
 // $COVERAGE-ON$
 }

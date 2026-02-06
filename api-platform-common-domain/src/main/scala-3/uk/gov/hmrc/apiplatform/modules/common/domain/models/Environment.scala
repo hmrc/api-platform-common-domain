@@ -16,30 +16,28 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.services.SealedTraitJsonFormatting
+import uk.gov.hmrc.apiplatform.modules.common.domain.services.SimpleEnumJsonFormatting
 
 enum Environment:
   case Production, Sandbox
 
 
-// sealed trait Environment {
-//   final lazy val isSandbox: Boolean    = this == Environment.SANDBOX
-//   final lazy val isProduction: Boolean = !isSandbox
-//   final lazy val displayText: String   = Environment.displayText(this)
-// }
-
 object Environment {
-  // case object PRODUCTION extends Environment
-  // case object SANDBOX    extends Environment
+  extension (m: Environment) {
+    def isSandbox: Boolean    = m match {
+      case Production => false
+      case _          => true
+    }
 
-  // val values = Set[Environment](PRODUCTION, SANDBOX) // enum already has a values method which returns an Array[Environment]
+    def isProduction: Boolean = !isSandbox
+
+    def displayText: String = m match {
+      case Production => "Production"
+      case _          => "Sandbox"
+    }
+  }
 
   import cats.implicits._
-
-  val displayText: Environment => String = _ match {
-    case Production => "Production"
-    case _          => "Sandbox"
-  }
 
   def apply(text: String): Option[Environment] = text.toUpperCase match {
     case "PRODUCTION" => Production.some
@@ -53,5 +51,5 @@ object Environment {
 
   import play.api.libs.json.Format
 
-  given Format[Environment] = SealedTraitJsonFormatting.createFormatFor[Environment]("Environment", apply(_))
+  given Format[Environment] = SimpleEnumJsonFormatting.createFormatFor[Environment]("Environment", apply(_), _.toString.toUpperCase())
 }
