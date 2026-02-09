@@ -34,10 +34,12 @@ lazy val library = (project in file("."))
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
   .settings(
     crossScalaVersions := Seq(scala3, scala2_13),
-    libraryDependencies ++= LibraryDependencies.commonDomain,
+    libraryDependencies ++= LibraryDependencies.commonDomain(scalaVersion.value),
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
-    Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "main" / "scala"
+    Compile / unmanagedSourceDirectories ++= Seq(
+      baseDirectory.value / ".." / "common" / "src" / "main"/ "scala"
+    )
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
@@ -47,9 +49,15 @@ lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-f
   )
   .settings(
     crossScalaVersions := Seq(scala3, scala2_13),
-    libraryDependencies ++= LibraryDependencies.root,
+    libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageKeys.coverageEnabled := false,
-    Compile / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
+    Compile / unmanagedSourceDirectories ++= Seq(
+      baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala",
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "main"/ "scala-2.13"
+        case _           => baseDirectory.value / ".." / "test-common" / "src" / "main"/ "scala-3"
+      }
+    )
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
@@ -62,11 +70,17 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
   .settings(
     crossScalaVersions := Seq(scala3, scala2_13),
     publish / skip := true,
-    libraryDependencies ++= LibraryDependencies.root,
+    libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
-    Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "common" / "src" / "test" / "scala",
-    Test / unmanagedSourceDirectories += baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala"
+    Test / unmanagedSourceDirectories ++= Seq(
+      baseDirectory.value / ".." / "common" / "src" / "test" / "scala",
+      baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala",
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "test"/ "scala-2.13"
+        case _           => baseDirectory.value / ".." / "test-common" / "src" / "test"/ "scala-3"
+      }
+    )
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
