@@ -18,7 +18,7 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import scala.util.Random
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax.toLaxEmail
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec

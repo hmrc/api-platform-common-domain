@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import java.{util => ju}
-import scala.util.control.Exception._
+import java.util as ju
+import scala.util.control.Exception.*
 
 opaque type UserId = ju.UUID
 
@@ -25,16 +25,16 @@ object UserId {
   import play.api.libs.json._
 
   extension (n: UserId) {
-    def value: String = n.toString()       // TODO - deprecate
+    def value: String = n.toString() // TODO - deprecate
   }
 
   def apply(raw: String): Option[UserId] = allCatch.opt(UserId(ju.UUID.fromString(raw)))
-  def apply(uuid: ju.UUID): UserId = uuid
+  def apply(uuid: ju.UUID): UserId       = uuid
 
   def unsafeApply(raw: String): UserId = apply(raw).getOrElse(throw new RuntimeException(s"$raw is not a valid UserId"))
 
-  given Format[UserId]    = Format(Reads.UUIDReader(true), Writes.UuidWrites)
-  
+  given Format[UserId] = Format(Reads.UUIDReader(true), Writes.UuidWrites)
+
 // $COVERAGE-OFF$
   def random: UserId = UserId(ju.UUID.randomUUID)
 // $COVERAGE-ON$

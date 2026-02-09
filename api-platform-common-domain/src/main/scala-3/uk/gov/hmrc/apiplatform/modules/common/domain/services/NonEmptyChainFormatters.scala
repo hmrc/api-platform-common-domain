@@ -16,9 +16,9 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
-import cats.data.{NonEmptyChain => NEC}
+import cats.data.NonEmptyChain as NEC
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 object NonEmptyChainFormatters {
 

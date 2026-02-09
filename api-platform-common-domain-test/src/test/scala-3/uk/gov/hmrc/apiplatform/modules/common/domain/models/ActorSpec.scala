@@ -18,11 +18,13 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import org.scalatest.OptionValues
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 
 class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
+
+  import Actor.given
 
   val bobSmithEmailAddress = LaxEmailAddress("bob@smith.com")
   val bobSmithUserName     = "bob smith"
@@ -125,7 +127,7 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
 
       "return correct actor type" in {
-        Actors.actorType(Actors.Process("Publisher")) shouldBe ActorType.Process
+        Actors.Process("Publisher").actorType shouldBe ActorType.Process
       }
     }
 

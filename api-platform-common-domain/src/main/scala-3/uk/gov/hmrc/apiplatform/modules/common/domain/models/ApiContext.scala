@@ -18,14 +18,15 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import scala.util.Random
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 opaque type ApiContext = String
 
 object ApiContext {
+
   extension (m: ApiContext) {
-    def value: String = m       // TODO - deprecate
-    def segments() = m.split("/")
+    def value: String     = m // TODO - deprecate
+    def segments()        = m.split("/")
     def topLevelContext() = ApiContext(segments().head)
   }
 

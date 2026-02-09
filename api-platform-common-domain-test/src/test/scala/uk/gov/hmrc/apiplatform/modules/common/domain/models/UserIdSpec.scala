@@ -56,7 +56,7 @@ class UserIdSpec extends BaseJsonFormattersSpec with UserIdFixtures {
     "read from json" in {
       testFromJson[UserId](s""""${userIdOne.value.toString}"""")(userIdOne)
     }
-    
+
     "read rubbish from json" in {
       Json.fromJson[UserId](JsString("XYZ")) should matchPattern {
         case _: JsError =>

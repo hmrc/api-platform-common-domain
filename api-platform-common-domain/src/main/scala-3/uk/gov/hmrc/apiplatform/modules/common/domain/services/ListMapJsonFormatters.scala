@@ -19,7 +19,7 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.services
 import scala.collection.Seq
 import scala.collection.immutable.ListMap
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 object ListMapJsonFormatters {
 

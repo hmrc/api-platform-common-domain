@@ -21,10 +21,11 @@ import uk.gov.hmrc.apiplatform.modules.common.domain.services.SimpleEnumJsonForm
 enum Environment:
   case Production, Sandbox
 
-
 object Environment {
+
   extension (m: Environment) {
-    def isSandbox: Boolean    = m match {
+
+    def isSandbox: Boolean = m match {
       case Production => false
       case _          => true
     }

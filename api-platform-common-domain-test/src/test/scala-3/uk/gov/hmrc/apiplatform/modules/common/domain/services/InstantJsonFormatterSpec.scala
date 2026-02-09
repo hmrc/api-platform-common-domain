@@ -18,7 +18,7 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
 import java.time.{Instant, LocalDateTime, ZoneOffset}
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 import uk.gov.hmrc.apiplatform.modules.common.utils.BaseJsonFormattersSpec
 

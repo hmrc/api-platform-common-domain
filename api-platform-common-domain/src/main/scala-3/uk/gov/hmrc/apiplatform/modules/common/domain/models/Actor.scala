@@ -18,51 +18,52 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 /** Actor refers to actors that triggered an event
   */
-sealed trait Actor {
-  val actorType: ActorType = Actors.actorType(this)
-}
+type Actor = Actors.AppCollaborator | Actors.GatekeeperUser | Actors.ScheduledJob | Actors.Process | Actors.Unknown.type
 
 object Actors {
-
-  def actorType(a: Actor): ActorType = a match {
-    case _: Actors.GatekeeperUser  => ActorType.Gatekeeper
-    case _: Actors.AppCollaborator => ActorType.Collaborator
-    case _: Actors.ScheduledJob    => ActorType.Scheduled_Job
-    case _: Actors.Process         => ActorType.Process
-    case _                         => ActorType.Unknown
-  }
 
   /** A third party developer who is a collaborator on the application for the event this actor is responsible for triggering
     *
     * @param email
     *   the developers email address at the time of the event
     */
-  case class AppCollaborator(email: LaxEmailAddress) extends Actor
+  case class AppCollaborator(email: LaxEmailAddress)
 
   /** A gatekeeper stride user (typically SDST)
     *
     * @param user
     *   the stride user fullname of the gatekeeper user who triggered the event on which they are the actor
     */
-  case class GatekeeperUser(user: String) extends Actor
+  case class GatekeeperUser(user: String)
 
   /** An automated job
     *
     * @param jobId
     *   the job name or instance of the job possibly as a UUID
     */
-  case class ScheduledJob(jobId: String) extends Actor
+  case class ScheduledJob(jobId: String)
 
   /** A process that has been triggered by something other than a schedule
     *
     * @param name
     *   the process name
     */
-  case class Process(name: String) extends Actor
+  case class Process(name: String)
 
   /** Unknown source - probably 3rd party code such as PPNS invocations
     */
-  case object Unknown extends Actor
+  case object Unknown
+}
+
+extension (a: Actor) {
+
+  def actorType: ActorType = a match {
+    case _: Actors.GatekeeperUser  => ActorType.Gatekeeper
+    case _: Actors.AppCollaborator => ActorType.Collaborator
+    case _: Actors.ScheduledJob    => ActorType.Scheduled_Job
+    case _: Actors.Process         => ActorType.Process
+    case _                         => ActorType.Unknown
+  }
 }
 
 object Actor {
@@ -71,18 +72,18 @@ object Actor {
   import play.api.libs.functional.syntax._
   import play.api.libs.json.Reads._
 
-  implicit val actorsCollaboratorWrites: OWrites[Actors.AppCollaborator]  = Json.writes[Actors.AppCollaborator]
-  implicit val actorsGatekeeperUserWrites: OWrites[Actors.GatekeeperUser] = Json.writes[Actors.GatekeeperUser]
-  implicit val actorsScheduledJobWrites: OWrites[Actors.ScheduledJob]     = Json.writes[Actors.ScheduledJob]
-  implicit val actorsProcessJobWrites: OWrites[Actors.Process]            = Json.writes[Actors.Process]
+  given OWrites[Actors.AppCollaborator] = Json.writes[Actors.AppCollaborator]
+  given OWrites[Actors.GatekeeperUser]  = Json.writes[Actors.GatekeeperUser]
+  given OWrites[Actors.ScheduledJob]    = Json.writes[Actors.ScheduledJob]
+  given OWrites[Actors.Process]         = Json.writes[Actors.Process]
 
-  implicit val actorsCollaboratorReads: Reads[Actors.AppCollaborator]  =
+  given Reads[Actors.AppCollaborator] =
     ((JsPath \ "id").read[String] or (JsPath \ "email").read[String]).map(s => Actors.AppCollaborator(LaxEmailAddress(s)))
-  implicit val actorsGatekeeperUserReads: Reads[Actors.GatekeeperUser] = ((JsPath \ "id").read[String] or (JsPath \ "user").read[String]).map(Actors.GatekeeperUser(_))
-  implicit val actorsScheduledJobReads: Reads[Actors.ScheduledJob]     = ((JsPath \ "id").read[String] or (JsPath \ "jobId").read[String]).map(Actors.ScheduledJob(_))
-  implicit val actorsProcessJobReads: Reads[Actors.Process]            = Json.reads[Actors.Process]
+  given Reads[Actors.GatekeeperUser]  = ((JsPath \ "id").read[String] or (JsPath \ "user").read[String]).map(Actors.GatekeeperUser(_))
+  given Reads[Actors.ScheduledJob]    = ((JsPath \ "id").read[String] or (JsPath \ "jobId").read[String]).map(Actors.ScheduledJob(_))
+  given Reads[Actors.Process]         = Json.reads[Actors.Process]
 
-  implicit val format: OFormat[Actor] = Union.from[Actor]("actorType")
+  given OFormat[Actor] = Union.from[Actor]("actorType")
     .and[Actors.AppCollaborator](ActorType.Collaborator.toString.toUpperCase)
     .and[Actors.GatekeeperUser](ActorType.Gatekeeper.toString.toUpperCase)
     .and[Actors.ScheduledJob](ActorType.Scheduled_Job.toString.toUpperCase)

@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 /** LaxEmailAddress is a wrapper to string but designed to carry the idea of an email address
   *
@@ -27,18 +27,20 @@ import play.api.libs.json._
 opaque type LaxEmailAddress = String
 
 object LaxEmailAddress {
+
   extension (m: LaxEmailAddress) {
-    def text: String = m       // TODO - deprecate
+    def text: String = m // TODO - deprecate
   }
 
   def apply(text: String): LaxEmailAddress = text.toLowerCase()
 
-  given Format[LaxEmailAddress]    = Format(Reads.StringReads.map(apply), Writes.StringWrites)
+  given Format[LaxEmailAddress] = Format(Reads.StringReads.map(apply), Writes.StringWrites)
 
   given Ordering[LaxEmailAddress] with
     def compare(x: LaxEmailAddress, y: LaxEmailAddress): Int = x.compare(y)
 
   object StringSyntax {
+
     extension (s: String) {
       def toLaxEmail: LaxEmailAddress = LaxEmailAddress(s)
     }

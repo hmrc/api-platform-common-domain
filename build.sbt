@@ -11,7 +11,7 @@ val appName = "api-platform-common-domain"
 val scala2_13 = "2.13.16"
 val scala3 = "3.3.7"
 
-ThisBuild / majorVersion     := 0
+ThisBuild / majorVersion     := 1
 ThisBuild / isPublicArtefact := true
 ThisBuild / scalaVersion     := scala3
 ThisBuild / crossScalaVersions := Seq(scala3, scala2_13)

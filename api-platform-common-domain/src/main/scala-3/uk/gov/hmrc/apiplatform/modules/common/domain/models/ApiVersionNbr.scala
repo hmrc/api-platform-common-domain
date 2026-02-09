@@ -18,18 +18,20 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import scala.util.Random
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 opaque type ApiVersionNbr = String
 
 object ApiVersionNbr {
+
   extension (n: ApiVersionNbr) {
-    def value: String = n       // TODO - deprecate
+    def value: String = n // TODO - deprecate
   }
 
   def apply(value: String): ApiVersionNbr = value
 
   given Ordering[ApiVersionNbr] with
+
     def compare(x: ApiVersionNbr, y: ApiVersionNbr): Int = {
 
       def asInt(versionNbr: ApiVersionNbr, portion: Int): Int =
@@ -53,14 +55,13 @@ object ApiVersionNbr {
         compareMajor
       }
     }
-    
-  given Format[ApiVersionNbr] = Format(Reads.StringReads, Writes.StringWrites)
-  given KeyReads[ApiVersionNbr]   = key => JsSuccess(key)
+
+  given Format[ApiVersionNbr]    = Format(Reads.StringReads, Writes.StringWrites)
+  given KeyReads[ApiVersionNbr]  = key => JsSuccess(key)
   given KeyWrites[ApiVersionNbr] = identity(_)
 
-  /**
-   *  Produces a version from 0-999 . 0-999
-   */
+  /** Produces a version from 0-999 . 0-999
+    */
 // $COVERAGE-OFF$
   def random: ApiVersionNbr = {
     val major          = Random.nextInt(1000)

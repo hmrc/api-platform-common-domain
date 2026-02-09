@@ -19,7 +19,7 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.services
 import java.time.temporal.ChronoUnit
 import java.time.{LocalDateTime, ZoneOffset}
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 object LocalDateTimeFormatter extends EnvReads with EnvWrites {
 

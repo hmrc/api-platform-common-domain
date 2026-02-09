@@ -17,13 +17,14 @@
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.services.SimpleEnumJsonFormatting
-import javax.print.SimpleDoc
 
 enum ActorType:
   case Collaborator, Gatekeeper, Scheduled_Job, Process, Unknown
 
 object ActorType {
+
   extension (a: ActorType) {
+
     def displayText: String = a match {
       case ActorType.Collaborator  => "Application Collaborator"
       case ActorType.Gatekeeper    => "Gatekeeper User"
