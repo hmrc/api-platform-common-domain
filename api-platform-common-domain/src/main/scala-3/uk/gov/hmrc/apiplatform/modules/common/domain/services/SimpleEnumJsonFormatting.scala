@@ -16,10 +16,13 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
+import java.util.concurrent.ConcurrentHashMap
+
 object SimpleEnumJsonFormatting {
   import play.api.libs.json._
+  import EnumJsonHelper._
 
-  def createFormatFor[T](name: String, read: String => Option[T], write: T => String = (t: T) => t.toString) = new Format[T] {
+  def createFormatFor[T](name: String, read: String => Option[T], write: T => String) = new Format[T] {
 
     def reads(json: JsValue): JsResult[T] = json match {
       case JsString(text) => read(text).fold[JsResult[T]] { JsError(s"$text is not a valid $name") }(JsSuccess(_))
@@ -29,5 +32,18 @@ object SimpleEnumJsonFormatting {
     def writes(foo: T): JsValue = {
       JsString(write(foo))
     }
+  }
+
+  def createStringFormatFor[T](name: String, read: String => Option[T], write: T => String = (t: T) => t.toString) = createFormatFor[T](name, read, write)
+
+  private val from = ConcurrentHashMap[String, String]
+  private val to   = ConcurrentHashMap[String, String]
+
+  private def from(in: String): String = from.computeIfAbsent(in, in => fromScreamingSnakeCase(in))
+
+  private def to[T](in: T): String = to.computeIfAbsent(in.toString(), in => toScreamingSnakeCase(in))
+
+  def createEnumFormatFor[T](name: String, read: String => Option[T]) = {
+    createFormatFor[T](name, s => read(from(s)), t => to(t))
   }
 }

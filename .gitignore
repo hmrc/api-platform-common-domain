@@ -1,6 +1,10 @@
 .*
 !.gitignore
 !.scalafix.conf
+!.scalafix-scala2.conf
+!.scalafix-scala3.conf
+!.scalafmt-scala2.conf
+!.scalafmt-scala3.conf
 !.scalafmt.conf
 
 logs

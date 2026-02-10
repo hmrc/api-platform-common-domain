@@ -60,7 +60,7 @@ extension (a: Actor) {
   def actorType: ActorType = a match {
     case _: Actors.GatekeeperUser  => ActorType.Gatekeeper
     case _: Actors.AppCollaborator => ActorType.Collaborator
-    case _: Actors.ScheduledJob    => ActorType.Scheduled_Job
+    case _: Actors.ScheduledJob    => ActorType.ScheduledJob
     case _: Actors.Process         => ActorType.Process
     case _                         => ActorType.Unknown
   }
@@ -83,11 +83,13 @@ object Actor {
   given Reads[Actors.ScheduledJob]    = ((JsPath \ "id").read[String] or (JsPath \ "jobId").read[String]).map(Actors.ScheduledJob(_))
   given Reads[Actors.Process]         = Json.reads[Actors.Process]
 
+  import uk.gov.hmrc.apiplatform.modules.common.domain.services.EnumJsonHelper.asScreamingSnakeCase
+
   given OFormat[Actor] = Union.from[Actor]("actorType")
-    .and[Actors.AppCollaborator](ActorType.Collaborator.toString.toUpperCase)
-    .and[Actors.GatekeeperUser](ActorType.Gatekeeper.toString.toUpperCase)
-    .and[Actors.ScheduledJob](ActorType.Scheduled_Job.toString.toUpperCase)
-    .and[Actors.Process](ActorType.Process.toString.toUpperCase)
-    .andType[Actors.Unknown.type](ActorType.Unknown.toString.toUpperCase, () => Actors.Unknown)
+    .and[Actors.AppCollaborator](ActorType.Collaborator.asScreamingSnakeCase)
+    .and[Actors.GatekeeperUser](ActorType.Gatekeeper.asScreamingSnakeCase)
+    .and[Actors.ScheduledJob](ActorType.ScheduledJob.asScreamingSnakeCase)
+    .and[Actors.Process](ActorType.Process.asScreamingSnakeCase)
+    .andType[Actors.Unknown.type](ActorType.Unknown.asScreamingSnakeCase, () => Actors.Unknown)
     .format
 }

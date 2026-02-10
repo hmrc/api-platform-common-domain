@@ -19,18 +19,18 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 import uk.gov.hmrc.apiplatform.modules.common.domain.services.SimpleEnumJsonFormatting
 
 enum ActorType:
-  case Collaborator, Gatekeeper, Scheduled_Job, Process, Unknown
+  case Collaborator, Gatekeeper, ScheduledJob, Process, Unknown
 
 object ActorType {
 
   extension (a: ActorType) {
 
     def displayText: String = a match {
-      case ActorType.Collaborator  => "Application Collaborator"
-      case ActorType.Gatekeeper    => "Gatekeeper User"
-      case ActorType.Scheduled_Job => "Scheduled Job"
-      case ActorType.Process       => "Process"
-      case ActorType.Unknown       => "Unknown"
+      case ActorType.Collaborator => "Application Collaborator"
+      case ActorType.Gatekeeper   => "Gatekeeper User"
+      case ActorType.ScheduledJob => "Scheduled Job"
+      case ActorType.Process      => "Process"
+      case ActorType.Unknown      => "Unknown"
     }
   }
 
@@ -42,6 +42,5 @@ object ActorType {
 
   import play.api.libs.json.Format
 
-  given Format[ActorType] = SimpleEnumJsonFormatting.createFormatFor[ActorType]("Actor Type", apply(_), _.toString.toUpperCase())
-
+  given Format[ActorType] = SimpleEnumJsonFormatting.createEnumFormatFor[ActorType]("Actor Type", apply)
 }

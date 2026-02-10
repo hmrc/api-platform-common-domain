@@ -21,8 +21,32 @@ ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" 
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
+lazy val commonSettings = Seq(
+  scalafixConfig := {
+    val base = (ThisBuild / baseDirectory).value
+    val file =
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((3, _)) => base / ".scalafix-scala3.conf"
+        case _            => base / ".scalafix-scala2.conf"
+      }
+    Some(file)
+  },
+
+  scalafmtConfig := {
+    val base = (ThisBuild / baseDirectory).value
+    val file =
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((3, _)) => base / ".scalafmt-scala3.conf"
+        case _            => base / ".scalafmt-scala2.conf"
+      }
+    file
+  }
+)
+
+
 lazy val library = (project in file("."))
   .settings(
+    commonSettings,
     crossScalaVersions := Nil,
     publish / skip := true
   )
@@ -33,13 +57,16 @@ lazy val library = (project in file("."))
 
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
   .settings(
+    commonSettings,
     crossScalaVersions := Seq(scala3, scala2_13),
     libraryDependencies ++= LibraryDependencies.commonDomain(scalaVersion.value),
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
     Compile / unmanagedSourceDirectories ++= Seq(
-      baseDirectory.value / ".." / "common" / "src" / "main"/ "scala"
-    )
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2,_)) => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-3"
+      })
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
@@ -48,16 +75,15 @@ lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-f
     apiPlatformCommonDomain % "compile"
   )
   .settings(
+    commonSettings,
     crossScalaVersions := Seq(scala3, scala2_13),
     libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageKeys.coverageEnabled := false,
     Compile / unmanagedSourceDirectories ++= Seq(
-      baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala",
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "main"/ "scala-2.13"
-        case _           => baseDirectory.value / ".." / "test-common" / "src" / "main"/ "scala-3"
-      }
-    )
+        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-3"
+      })
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
@@ -68,19 +94,22 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
     apiPlatformCommonDomainFixtures
   )
   .settings(
+    commonSettings,
     crossScalaVersions := Seq(scala3, scala2_13),
     publish / skip := true,
     libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageSettings(),
+    Compile / unmanagedSourceDirectories ++= Seq(
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-3"
+      }),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
     Test / unmanagedSourceDirectories ++= Seq(
-      baseDirectory.value / ".." / "common" / "src" / "test" / "scala",
-      baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala",
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "test"/ "scala-2.13"
-        case _           => baseDirectory.value / ".." / "test-common" / "src" / "test"/ "scala-3"
-      }
-    )
+        case Some((2,_)) => baseDirectory.value / ".." / "common" / "src" / "test" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "common" / "src" / "test" / "scala-3"
+      })
   )
   .disablePlugins(JUnitXmlReportPlugin)
 

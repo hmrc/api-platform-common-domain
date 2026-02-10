@@ -110,7 +110,7 @@ class ActorSpec extends BaseJsonFormattersSpec with OptionValues {
       }
 
       "return correct actor type" in {
-        Actors.ScheduledJob("DeleteAllAppsBwaHaHa").actorType shouldBe ActorType.Scheduled_Job
+        Actors.ScheduledJob("DeleteAllAppsBwaHaHa").actorType shouldBe ActorType.ScheduledJob
       }
     }
 

@@ -29,9 +29,19 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
       ("Source", "text", "display text"),
       (ActorType.Collaborator, "Collaborator", "Application Collaborator"),
       (ActorType.Gatekeeper, "Gatekeeper", "Gatekeeper User"),
-      (ActorType.Scheduled_Job, "Scheduled_Job", "Scheduled Job"),
+      (ActorType.ScheduledJob, "ScheduledJob", "Scheduled Job"),
       (ActorType.Process, "Process", "Process"),
       (ActorType.Unknown, "Unknown", "Unknown")
+    )
+
+  val jsonValues =
+    Table(
+      ("Source", "json"),
+      (ActorType.Collaborator, "COLLABORATOR"),
+      (ActorType.Gatekeeper, "GATEKEEPER"),
+      (ActorType.ScheduledJob, "SCHEDULED_JOB"),
+      (ActorType.Process, "PROCESS"),
+      (ActorType.Unknown, "UNKNOWN")
     )
 
   "ActorTypes" when {
@@ -73,7 +83,7 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
     }
 
     "read from Json" in {
-      forAll(values) { (s, t, _) =>
+      forAll(jsonValues) { (s, t) =>
         testFromJson[ActorType](s""""$t"""")(s)
       }
     }
@@ -91,7 +101,7 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
     }
 
     "write to Json" in {
-      forAll(values) { (s, t, _) =>
+      forAll(jsonValues) { (s, t) =>
         Json.toJson[ActorType](s) shouldBe JsString(t.toUpperCase())
       }
     }
