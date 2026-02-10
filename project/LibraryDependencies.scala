@@ -7,7 +7,7 @@ object LibraryDependencies {
     
     lazy val compileDependencies = Seq(
       "org.playframework"       %% "play-json"                      % "3.0.1",
-      "uk.gov.hmrc"             %% "play-json-union-formatter"      % "1.23.0-SNAPSHOT",
+      "uk.gov.hmrc"             %% "play-json-union-formatter"      % "1.23.0",
       "org.typelevel"           %% "cats-core"                      % "2.10.0"
     )
 
