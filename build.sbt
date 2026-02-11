@@ -54,7 +54,6 @@ lazy val library = (project in file("."))
     apiPlatformCommonDomain, apiPlatformCommonDomainFixtures, apiPlatformCommonDomainTest
   )
 
-
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
   .settings(
     commonSettings,
@@ -70,6 +69,7 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
+
 lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-fixtures", file("api-platform-common-domain-fixtures"))
   .dependsOn(
     apiPlatformCommonDomain % "compile"
@@ -81,8 +81,8 @@ lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-f
     ScoverageKeys.coverageEnabled := false,
     Compile / unmanagedSourceDirectories ++= Seq(
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-2.13"
-        case _           => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-3"
+        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-3"
       })
   )
   .disablePlugins(JUnitXmlReportPlugin)
@@ -101,8 +101,8 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
     ScoverageSettings(),
     Compile / unmanagedSourceDirectories ++= Seq(
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-2.13"
-        case _           => baseDirectory.value / ".." / "test-common" / "src" / "test" / "scala-3"
+        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "main" / "test" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "test-common" / "main" / "test" / "scala-3"
       }),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
     Test / unmanagedSourceDirectories ++= Seq(
@@ -114,12 +114,15 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
   .disablePlugins(JUnitXmlReportPlugin)
 
 commands ++= Seq(
-  Command.command("run-all-tests") { state => "+test" :: state },
+  Command.command("run-all-tests") { state => "test" :: state },
+  Command.command("coverage-test") { state => "coverage" :: "run-all-tests" :: "coverageOff" :: "coverageAggregate" :: state },
+  Command.command("check") { state => "clean" :: "coverage-test" :: state },
+  Command.command("all") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage-test" :: state },
 
-  Command.command("clean-and-test") { state => "+clean" :: "+compile" :: "run-all-tests" :: state },
+  Command.command("clean-and-test") { state => "clean" :: "run-all-tests" :: state },
 
   // Coverage does not need compile !
-  Command.command("pre-commit") { state => "+clean" :: "+scalafmtAll" :: "+scalafixAll" :: "+coverage" :: "run-all-tests" :: "+coverageOff" :: "+coverageAggregate" :: state }
+  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage-test" :: state }
 )
 
 

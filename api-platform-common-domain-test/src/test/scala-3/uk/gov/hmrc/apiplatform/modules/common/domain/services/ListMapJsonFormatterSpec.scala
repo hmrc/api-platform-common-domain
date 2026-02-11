@@ -28,12 +28,12 @@ case object Pass extends Mark
 
 object Mark {
 
-  implicit val markWrites: Writes[Mark] = Writes {
+  given Writes[Mark] = Writes {
     case Fail => JsString("fail")
     case Pass => JsString("pass")
   }
 
-  implicit val markReads: Reads[Mark] = Reads {
+  given Reads[Mark] = Reads {
     case JsString("fail") => JsSuccess(Fail)
     case JsString("pass") => JsSuccess(Pass)
     case _                => JsError("Failed to parse Mark value")
@@ -43,8 +43,8 @@ object Mark {
 case class PossibleAnswer(value: String) extends AnyVal
 
 object PossibleAnswer {
-  implicit val keyReadsPossibleAnswer: KeyReads[PossibleAnswer]   = KeyReads(key => JsSuccess(PossibleAnswer(key)))
-  implicit val keyWritesPossibleAnswer: KeyWrites[PossibleAnswer] = KeyWrites(_.value)
+  given KeyReads[PossibleAnswer]  = KeyReads(key => JsSuccess(PossibleAnswer(key)))
+  given KeyWrites[PossibleAnswer] = KeyWrites(_.value)
 }
 
 class ListMapJsonFormatterSpec extends BaseJsonFormattersSpec {
