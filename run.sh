@@ -21,8 +21,11 @@ scala3 () {
 [ "$#" -eq 2 ] || die "usage: run [sbt-cmd] [version]"
 
 case $2 in
-  2) scala2 $1 ;;
-  3) scala3 $1 ;;
-  both) printf "Doing $1 for both\n\n"; scala2 $1; scala3 $1; printf "Done both\n\n";;
+  2) scala2 $1
+    ;;
+  3) scala3 $1
+    ;;
+  both) scala2 $1; read -p "Press any key to continue to Scala 3..."; scala3 $1
+    ;;
   *) die "$2 is not a supported version - valid values [2 | 3 | both]"
 esac
