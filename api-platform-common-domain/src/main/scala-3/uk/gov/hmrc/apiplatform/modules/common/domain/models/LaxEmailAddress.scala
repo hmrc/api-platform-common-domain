@@ -24,20 +24,17 @@ import play.api.libs.json.*
   *
   * We rely on the apply to prevent mixed case as we cannot make it private or it breaks mocking
   */
-opaque type LaxEmailAddress = String
+opaque type LaxEmailAddress <: String = String
 
 object LaxEmailAddress {
 
   extension (m: LaxEmailAddress) {
-    def text: String = m // TODO - deprecate
+    def text: String = m
   }
 
   def apply(text: String): LaxEmailAddress = text.toLowerCase()
 
   given Format[LaxEmailAddress] = Format(Reads.StringReads.map(apply), Writes.StringWrites)
-
-  given Ordering[LaxEmailAddress] with
-    def compare(x: LaxEmailAddress, y: LaxEmailAddress): Int = x.compare(y)
 
   object StringSyntax {
 

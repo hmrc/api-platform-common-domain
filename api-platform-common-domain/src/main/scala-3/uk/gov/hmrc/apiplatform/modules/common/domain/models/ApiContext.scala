@@ -20,12 +20,12 @@ import scala.util.Random
 
 import play.api.libs.json.*
 
-opaque type ApiContext = String
+opaque type ApiContext <: String = String
 
 object ApiContext {
 
   extension (m: ApiContext) {
-    def value: String     = m // TODO - deprecate
+    def value: String     = m
     def segments()        = m.split("/")
     def topLevelContext() = ApiContext(segments().head)
   }
@@ -35,9 +35,6 @@ object ApiContext {
   given Format[ApiContext]    = Format(Reads.StringReads, Writes.StringWrites)
   given KeyReads[ApiContext]  = key => JsSuccess(key)
   given KeyWrites[ApiContext] = identity(_)
-
-  given Ordering[ApiContext] with
-    def compare(x: ApiContext, y: ApiContext): Int = x.compare(y)
 
 // $COVERAGE-OFF$
   def random: ApiContext = Random.alphanumeric.take(10).mkString

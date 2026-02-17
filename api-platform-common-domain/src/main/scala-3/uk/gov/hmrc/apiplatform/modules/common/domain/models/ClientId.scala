@@ -16,22 +16,19 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-opaque type ClientId = String
+opaque type ClientId <: String = String
 
 object ClientId {
   import play.api.libs.json._
   import scala.util.Random
 
   extension (m: ClientId) {
-    def value: String = m // TODO - deprecate
+    def value: String = m
   }
 
   def apply(value: String): ClientId = value
 
   given Format[ClientId] = Format(Reads.StringReads, Writes.StringWrites)
-
-  given Ordering[ClientId] with
-    def compare(x: ClientId, y: ClientId): Int = x.compare(y)
 
 // $COVERAGE-OFF$
   def random: ClientId = Random.alphanumeric.take(28).mkString

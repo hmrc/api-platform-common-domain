@@ -25,7 +25,7 @@ opaque type ApiVersionNbr = String
 object ApiVersionNbr {
 
   extension (n: ApiVersionNbr) {
-    def value: String = n // TODO - deprecate
+    def value: String = n
   }
 
   def apply(value: String): ApiVersionNbr = value

@@ -61,7 +61,7 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
     libraryDependencies ++= LibraryDependencies.commonDomain(scalaVersion.value),
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
-    Compile / unmanagedSourceDirectories ++= Seq(
+    Compile / unmanagedSourceDirectories += (
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2,_)) => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-2.13"
         case _           => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-3"
@@ -79,7 +79,7 @@ lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-f
     crossScalaVersions := Seq(scala3, scala2_13),
     libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageKeys.coverageEnabled := false,
-    Compile / unmanagedSourceDirectories ++= Seq(
+    Compile / unmanagedSourceDirectories += (
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-2.13"
         case _           => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-3"
@@ -99,16 +99,19 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
     publish / skip := true,
     libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageSettings(),
-    Compile / unmanagedSourceDirectories ++= Seq(
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "main" / "test" / "scala-2.13"
-        case _           => baseDirectory.value / ".." / "test-common" / "main" / "test" / "scala-3"
-      }),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
-    Test / unmanagedSourceDirectories ++= Seq(
+    Test / unmanagedSourceDirectories ++= (
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "common" / "src" / "test" / "scala-2.13"
-        case _           => baseDirectory.value / ".." / "common" / "src" / "test" / "scala-3"
+        case Some((2,_)) => 
+          Seq(
+            baseDirectory.value / ".." / "common" / "src" / "test" / "scala-2.13",
+            baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-2.13"
+          )
+        case _           => 
+          Seq(
+            baseDirectory.value / ".." / "common" / "src" / "test" / "scala-3",
+            baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-3"
+          )
       })
   )
   .disablePlugins(JUnitXmlReportPlugin)

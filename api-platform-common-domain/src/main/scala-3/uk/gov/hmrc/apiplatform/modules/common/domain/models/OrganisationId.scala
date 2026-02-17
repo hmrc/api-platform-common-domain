@@ -19,13 +19,13 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 import java.util as ju
 import scala.util.control.Exception.*
 
-opaque type OrganisationId = ju.UUID
+opaque type OrganisationId <: ju.UUID = ju.UUID
 
 object OrganisationId {
   import play.api.libs.json._
 
   extension (n: OrganisationId) {
-    def value: String = n.toString() // TODO - deprecate
+    def value: String = n.toString()
   }
 
   def apply(raw: String): Option[OrganisationId] = allCatch.opt(OrganisationId(ju.UUID.fromString(raw)))
