@@ -47,7 +47,6 @@ lazy val commonSettings = Seq(
 lazy val library = (project in file("."))
   .settings(
     commonSettings,
-    crossScalaVersions := Nil,
     publish / skip := true
   )
   .aggregate(
@@ -57,7 +56,6 @@ lazy val library = (project in file("."))
 lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
   .settings(
     commonSettings,
-    crossScalaVersions := Seq(scala3, scala2_13),
     libraryDependencies ++= LibraryDependencies.commonDomain(scalaVersion.value),
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
@@ -76,7 +74,6 @@ lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-f
   )
   .settings(
     commonSettings,
-    crossScalaVersions := Seq(scala3, scala2_13),
     libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageKeys.coverageEnabled := false,
     Compile / unmanagedSourceDirectories += (
@@ -95,7 +92,6 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
   )
   .settings(
     commonSettings,
-    crossScalaVersions := Seq(scala3, scala2_13),
     publish / skip := true,
     libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
     ScoverageSettings(),
