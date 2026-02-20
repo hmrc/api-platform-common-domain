@@ -67,10 +67,10 @@ extension (a: Actor) {
 }
 
 object Actor {
-  import play.api.libs.json._
+  import play.api.libs.json.*
   import uk.gov.hmrc.play.json.Union
-  import play.api.libs.functional.syntax._
-  import play.api.libs.json.Reads._
+  import play.api.libs.functional.syntax.*
+  import play.api.libs.json.Reads.*
 
   given OWrites[Actors.AppCollaborator] = Json.writes[Actors.AppCollaborator]
   given OWrites[Actors.GatekeeperUser]  = Json.writes[Actors.GatekeeperUser]

@@ -22,7 +22,7 @@ import scala.util.control.Exception.*
 opaque type UserId <: ju.UUID = ju.UUID
 
 object UserId {
-  import play.api.libs.json._
+  import play.api.libs.json.*
 
   extension (n: UserId) {
     def value: ju.UUID = n

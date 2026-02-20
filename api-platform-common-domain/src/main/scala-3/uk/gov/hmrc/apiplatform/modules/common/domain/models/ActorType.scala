@@ -34,13 +34,12 @@ object ActorType {
     }
   }
 
-  def apply(text: String): Option[ActorType] = ActorType.values.find(_.toString.equalsIgnoreCase(text))
+  def apply(text: String): Option[ActorType] = ActorType.values.find(_.toString == text)
 
   def unsafeApply(text: String): ActorType = {
     apply(text).getOrElse(throw new RuntimeException(s"$text is not a valid Actor Type"))
   }
 
   import play.api.libs.json.Format
-
   given Format[ActorType] = SimpleEnumJsonFormatting.createEnumFormatFor[ActorType]("Actor Type", apply)
 }

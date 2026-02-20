@@ -37,13 +37,13 @@ class FixedClockSpec extends HmrcSpec with TableDrivenPropertyChecks with FixedC
       )
 
     "match when time is converted to json text" in {
-      import play.api.libs.json._
+      import play.api.libs.json.*
       forAll(values) { (time, text) =>
         Json.toJson(time) shouldBe JsString(text)
       }
     }
     "match when time is converted from json text" in {
-      import play.api.libs.json._
+      import play.api.libs.json.*
       forAll(values) { (time, text) =>
         Json.fromJson[Instant](JsString(text)) shouldBe JsSuccess(time)
       }

@@ -19,7 +19,7 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 opaque type ClientId <: String = String
 
 object ClientId {
-  import play.api.libs.json._
+  import play.api.libs.json.*
   import scala.util.Random
 
   extension (m: ClientId) {

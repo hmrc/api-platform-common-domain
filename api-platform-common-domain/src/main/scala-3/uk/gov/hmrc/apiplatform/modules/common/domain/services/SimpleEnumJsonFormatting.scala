@@ -19,8 +19,8 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.services
 import java.util.concurrent.ConcurrentHashMap
 
 object SimpleEnumJsonFormatting {
-  import play.api.libs.json._
-  import EnumJsonHelper._
+  import play.api.libs.json.*
+  import EnumJsonHelper.*
 
   def createFormatFor[T](name: String, read: String => Option[T], write: T => String) = new Format[T] {
 

@@ -22,7 +22,7 @@ import java.time.{Instant, LocalDate, LocalDateTime, ZoneOffset}
 import uk.gov.hmrc.apiplatform.modules.common.utils.{FixedClock, HmrcSpec}
 
 class DateTimeHelperSpec extends HmrcSpec with FixedClock {
-  import DateTimeHelper._
+  import DateTimeHelper.*
 
   "DateTimeHelper" should {
 

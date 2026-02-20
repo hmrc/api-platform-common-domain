@@ -57,20 +57,6 @@ class ActorTypeSpec extends BaseJsonFormattersSpec with TableDrivenPropertyCheck
       }
     }
 
-    "convert lower case string to case object" in {
-      forAll(values) { (s, t, _) =>
-        ActorType.apply(t) shouldBe Some(s)
-        ActorType.unsafeApply(t) shouldBe s
-      }
-    }
-
-    "convert mixed case string to case object" in {
-      forAll(values) { (s, t, _) =>
-        ActorType.apply(t) shouldBe Some(s)
-        ActorType.unsafeApply(t) shouldBe s
-      }
-    }
-
     "convert string value to None when undefined or empty" in {
       ActorType.apply("rubbish") shouldBe None
       ActorType.apply("") shouldBe None

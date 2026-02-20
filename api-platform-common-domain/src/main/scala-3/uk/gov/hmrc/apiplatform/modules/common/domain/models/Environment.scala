@@ -18,27 +18,25 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.services.SimpleEnumJsonFormatting
 
-enum Environment:
-  case Production, Sandbox
+enum Environment {
 
-object Environment {
-
-  extension (m: Environment) {
-
-    def isSandbox: Boolean = m match {
-      case Production => false
-      case _          => true
-    }
-
-    def isProduction: Boolean = !isSandbox
-
-    def displayText: String = m match {
-      case Production => "Production"
-      case _          => "Sandbox"
-    }
+  def isSandbox: Boolean = this match {
+    case Production => false
+    case _          => true
   }
 
-  import cats.implicits._
+  def isProduction: Boolean = !isSandbox
+
+  def displayText: String = this match {
+    case Production => "Production"
+    case _          => "Sandbox"
+  }
+
+  case Production, Sandbox
+}
+
+object Environment {
+  import cats.implicits.*
 
   def apply(text: String): Option[Environment] = text.toUpperCase match {
     case "PRODUCTION" => Production.some
@@ -52,5 +50,5 @@ object Environment {
 
   import play.api.libs.json.Format
 
-  given Format[Environment] = SimpleEnumJsonFormatting.createFormatFor[Environment]("Environment", apply(_), _.toString.toUpperCase())
+  given Format[Environment] = SimpleEnumJsonFormatting.createEnumFormatFor[Environment]("Environment", apply)
 }

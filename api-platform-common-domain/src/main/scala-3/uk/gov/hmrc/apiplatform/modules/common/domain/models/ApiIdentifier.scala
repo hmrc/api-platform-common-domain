@@ -21,8 +21,8 @@ case class ApiIdentifier(context: ApiContext, versionNbr: ApiVersionNbr) {
 }
 
 object ApiIdentifier {
-  import play.api.libs.json._
-  import play.api.libs.functional.syntax._
+  import play.api.libs.json.*
+  import play.api.libs.functional.syntax.*
 
   private val readsApiIdentifier: Reads[ApiIdentifier] = (
     (JsPath \ "context").read[ApiContext] and

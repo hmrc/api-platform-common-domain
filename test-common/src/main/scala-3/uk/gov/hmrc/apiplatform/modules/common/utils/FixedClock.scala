@@ -22,7 +22,7 @@ import java.time.{Clock, Instant, LocalDateTime, ZoneOffset}
 import uk.gov.hmrc.apiplatform.modules.common.services.{ClockNow, DateTimeHelper}
 
 trait FixedClock extends ClockNow {
-  import DateTimeHelper._
+  import DateTimeHelper.*
 
   private val utc: ZoneOffset = ZoneOffset.UTC
 
