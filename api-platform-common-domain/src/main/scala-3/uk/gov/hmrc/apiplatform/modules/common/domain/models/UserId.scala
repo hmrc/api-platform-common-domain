@@ -19,7 +19,7 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 import java.util as ju
 import scala.util.control.Exception.*
 
-opaque type UserId <: ju.UUID = ju.UUID
+opaque type UserId = ju.UUID
 
 object UserId {
   import play.api.libs.json.*
@@ -34,6 +34,8 @@ object UserId {
   def unsafeApply(raw: String): UserId = apply(raw).getOrElse(throw new RuntimeException(s"$raw is not a valid UserId"))
 
   given Format[UserId] = Format(Reads.UUIDReader(true), Writes.UuidWrites)
+
+  given Ordering[UserId] = Ordering.by(_.value.toString())
 
 // $COVERAGE-OFF$
   def random: UserId = UserId(ju.UUID.randomUUID)

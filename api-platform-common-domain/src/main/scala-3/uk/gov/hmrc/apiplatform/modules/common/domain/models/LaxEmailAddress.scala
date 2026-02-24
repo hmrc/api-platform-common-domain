@@ -24,7 +24,7 @@ import play.api.libs.json.*
   *
   * We rely on the apply to prevent mixed case as we cannot make it private or it breaks mocking
   */
-opaque type LaxEmailAddress <: String = String
+opaque type LaxEmailAddress = String
 
 object LaxEmailAddress {
 
@@ -35,6 +35,8 @@ object LaxEmailAddress {
   def apply(text: String): LaxEmailAddress = text.toLowerCase()
 
   given Format[LaxEmailAddress] = Format(Reads.StringReads.map(apply), Writes.StringWrites)
+
+  given Ordering[LaxEmailAddress] = Ordering.String
 
   object StringSyntax {
 

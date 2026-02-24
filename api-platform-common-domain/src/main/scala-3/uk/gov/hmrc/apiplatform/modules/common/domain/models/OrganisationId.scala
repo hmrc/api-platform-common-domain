@@ -19,13 +19,13 @@ package uk.gov.hmrc.apiplatform.modules.common.domain.models
 import java.util as ju
 import scala.util.control.Exception.*
 
-opaque type OrganisationId <: ju.UUID = ju.UUID
+opaque type OrganisationId = ju.UUID
 
 object OrganisationId {
   import play.api.libs.json.*
 
   extension (n: OrganisationId) {
-    def value: String = n.toString()
+    def value: ju.UUID = n
   }
 
   def apply(raw: String): Option[OrganisationId] = allCatch.opt(OrganisationId(ju.UUID.fromString(raw)))
@@ -34,6 +34,8 @@ object OrganisationId {
   def unsafeApply(raw: String): OrganisationId = OrganisationId(raw).getOrElse(throw new RuntimeException(s"Cannot parse OrganisationId from '$raw'"))
 
   given Format[OrganisationId] = Format(Reads.UUIDReader(true), Writes.UuidWrites)
+
+  given Ordering[OrganisationId] = Ordering.by(_.value.toString())
 
 // $COVERAGE-OFF$
   def random: OrganisationId = OrganisationId(ju.UUID.randomUUID)

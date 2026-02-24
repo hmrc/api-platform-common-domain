@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.models
 
-opaque type ClientId <: String = String
+opaque type ClientId = String
 
 object ClientId {
   import play.api.libs.json.*
@@ -29,6 +29,8 @@ object ClientId {
   def apply(value: String): ClientId = value
 
   given Format[ClientId] = Format(Reads.StringReads, Writes.StringWrites)
+
+  given Ordering[ClientId] = Ordering.String
 
 // $COVERAGE-OFF$
   def random: ClientId = Random.alphanumeric.take(28).mkString

@@ -20,7 +20,7 @@ import scala.util.Random
 
 import play.api.libs.json.*
 
-opaque type ApiContext <: String = String
+opaque type ApiContext = String
 
 object ApiContext {
 
@@ -35,6 +35,8 @@ object ApiContext {
   given Format[ApiContext]    = Format(Reads.StringReads, Writes.StringWrites)
   given KeyReads[ApiContext]  = key => JsSuccess(key)
   given KeyWrites[ApiContext] = identity(_)
+
+  given Ordering[ApiContext] = Ordering.String
 
 // $COVERAGE-OFF$
   def random: ApiContext = Random.alphanumeric.take(10).mkString
