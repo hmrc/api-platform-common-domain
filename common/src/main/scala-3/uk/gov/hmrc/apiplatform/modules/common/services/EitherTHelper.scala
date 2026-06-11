@@ -21,7 +21,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import cats.data.{EitherT, Validated}
 import cats.instances.future.catsStdInstancesForFuture
 
-trait EitherTHelper[E](using val ec: ExecutionContext) {
+trait EitherTHelper[E](using ExecutionContext) {
   outer =>
 
   def pure[A](in: A)   = EitherT.pure[Future, E](in)
@@ -44,5 +44,5 @@ trait EitherTHelper[E](using val ec: ExecutionContext) {
 
 object EitherTHelper {
 
-  def make[E](using outerEC: ExecutionContext) = new EitherTHelper[E] {}
+  def make[E](using ExecutionContext) = new EitherTHelper[E] {}
 }

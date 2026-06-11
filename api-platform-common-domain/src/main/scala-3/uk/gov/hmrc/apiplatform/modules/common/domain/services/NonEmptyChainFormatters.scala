@@ -22,7 +22,7 @@ import play.api.libs.json.*
 
 object NonEmptyChainFormatters {
 
-  given necReads[A](using r: Reads[A]): Reads[NEC[A]] =
+  given necReads[A](using Reads[A]): Reads[NEC[A]] =
     Reads
       .of[List[A]]
       .collect(
@@ -31,7 +31,7 @@ object NonEmptyChainFormatters {
         case head :: tail => NEC.of(head, tail: _*)
       }
 
-  given necWrites[A](using w: Writes[A]): Writes[NEC[A]] =
+  given necWrites[A](using Writes[A]): Writes[NEC[A]] =
     Writes
       .of[List[A]]
       .contramap(_.toNonEmptyList.toList)
