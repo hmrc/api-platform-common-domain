@@ -23,7 +23,7 @@ import play.api.libs.json.*
 
 object NonEmptySetFormatters {
 
-  given nesReads[A](using r: Reads[A], o: Order[A]): Reads[NES[A]] =
+  given nesReads[A](using Reads[A], Order[A]): Reads[NES[A]] =
     Reads
       .of[List[A]]
       .collect(
@@ -32,7 +32,7 @@ object NonEmptySetFormatters {
         case head :: tail => NES.of(head, tail: _*)
       }
 
-  given nesWrites[A](using w: Writes[A]): Writes[NES[A]] =
+  given nesWrites[A](using Writes[A]): Writes[NES[A]] =
     Writes
       .of[List[A]]
       .contramap(_.toNonEmptyList.toList)

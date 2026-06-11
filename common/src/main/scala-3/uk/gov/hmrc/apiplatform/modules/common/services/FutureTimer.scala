@@ -22,7 +22,7 @@ import scala.concurrent.{ExecutionContext, Future}
 trait FutureTimer {
   self: ClockNow =>
 
-  def timeThisFuture[T](f: => Future[T])(using ec: ExecutionContext): Future[TimedValue[T]] = {
+  def timeThisFuture[T](f: => Future[T])(using ExecutionContext): Future[TimedValue[T]] = {
     println("Starting timer") // No logger in scope in project
     val startTime: Instant = precise
 
