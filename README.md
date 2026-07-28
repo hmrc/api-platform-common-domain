@@ -18,7 +18,7 @@ Published - contains the common domain model classes for use by other code AND i
 Published - provides test fixtures for all classes in the common domain
 
 ### api-platform-common-domain-test
-Tests the api platform common domain - done as a project to allow using test fixtures from test common domain in the testing
+Tests the api platform common domain - done as a project to allow using test fixtures during testing
 
 ### common
 Not published individually but contained within api-platform-common-domain

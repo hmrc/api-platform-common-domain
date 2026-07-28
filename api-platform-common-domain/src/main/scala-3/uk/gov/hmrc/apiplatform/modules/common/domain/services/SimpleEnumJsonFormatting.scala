@@ -36,14 +36,34 @@ object SimpleEnumJsonFormatting {
 
   def createStringFormatFor[T](name: String, read: String => Option[T], write: T => String = (t: T) => t.toString) = createFormatFor[T](name, read, write)
 
-  private val from = ConcurrentHashMap[String, String]
-  private val to   = ConcurrentHashMap[String, String]
+  private object ScreamingSnakeCase {
+    val from = ConcurrentHashMap[String, String]
+    val to   = ConcurrentHashMap[String, String]
 
-  private def from(in: String): String = from.computeIfAbsent(in, in => fromScreamingSnakeCase(in))
+    def fromString(in: String): String = from.computeIfAbsent(in, in => fromSnakeCase(in))
 
-  private def to[T](in: T): String = to.computeIfAbsent(in.toString(), in => toScreamingSnakeCase(in))
+    def toString[T](in: T): String = to.computeIfAbsent(in.toString(), in => toScreamingSnakeCase(in))
+  }
 
+  private object SnakeCase {
+    val from = ConcurrentHashMap[String, String]
+    val to   = ConcurrentHashMap[String, String]
+
+    def fromString(in: String): String = from.computeIfAbsent(in, in => fromSnakeCase(in))
+
+    def toString[T](in: T): String = to.computeIfAbsent(in.toString(), in => toSnakeCase(in))
+  }
+
+  @deprecated("Replaced by screamingSnakeCaseFormatFor", "1.2.0")
   def createEnumFormatFor[T](name: String, read: String => Option[T]) = {
-    createFormatFor[T](name, s => read(from(s)), t => to(t))
+    screamingSnakeCaseFormatFor(name, read)
+  }
+
+  def screamingSnakeCaseFormatFor[T](name: String, read: String => Option[T]) = {
+    createFormatFor[T](name, s => read(ScreamingSnakeCase.fromString(s)), t => ScreamingSnakeCase.toString(t))
+  }
+
+  def snakeCaseFormatFor[T](name: String, read: String => Option[T]) = {
+    createFormatFor[T](name, s => read(SnakeCase.fromString(s)), t => SnakeCase.toString(t))
   }
 }

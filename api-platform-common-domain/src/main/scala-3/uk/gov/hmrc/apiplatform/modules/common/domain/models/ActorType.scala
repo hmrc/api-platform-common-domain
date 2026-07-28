@@ -41,5 +41,5 @@ object ActorType {
   }
 
   import play.api.libs.json.Format
-  given Format[ActorType] = SimpleEnumJsonFormatting.createEnumFormatFor[ActorType]("Actor Type", apply)
+  given Format[ActorType] = SimpleEnumJsonFormatting.screamingSnakeCaseFormatFor[ActorType]("Actor Type", apply)
 }
