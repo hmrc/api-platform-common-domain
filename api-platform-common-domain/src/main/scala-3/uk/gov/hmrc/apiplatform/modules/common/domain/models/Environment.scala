@@ -50,5 +50,5 @@ object Environment {
 
   import play.api.libs.json.Format
 
-  given Format[Environment] = SimpleEnumJsonFormatting.createEnumFormatFor[Environment]("Environment", apply)
+  given Format[Environment] = SimpleEnumJsonFormatting.screamingSnakeCaseFormatFor[Environment]("Environment", apply)
 }
