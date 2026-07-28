@@ -23,11 +23,9 @@ trait FutureTimer {
   self: ClockNow =>
 
   def timeThisFuture[T](f: => Future[T])(using ExecutionContext): Future[TimedValue[T]] = {
-    println("Starting timer") // No logger in scope in project
     val startTime: Instant = precise
 
     f.map(value => {
-      println("Mapping") // No logger in scope in project
       val endTime: Instant = precise
       val duration         = Duration.between(startTime, endTime)
       TimedValue(value, duration)
