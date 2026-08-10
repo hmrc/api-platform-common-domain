@@ -1,0 +1,63 @@
+/*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package uk.gov.hmrc.apiplatform.modules.common.domain.services
+
+import java.time.{Instant, LocalDate, LocalDateTime}
+
+import org.scalatest.BeforeAndAfterAll
+
+import uk.gov.hmrc.apiplatform.modules.common.utils.{FixedClock, HmrcSpec}
+
+class DateFormatterSpec extends HmrcSpec with BeforeAndAfterAll with FixedClock {
+  val fixedTimeNow: Instant = Instant.parse("2019-09-01T00:30:00.000Z")
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+  }
+
+  override def afterAll(): Unit = {
+    super.afterAll()
+  }
+
+  "formatDateWithShortPattern" should {
+    "use short date format" in {
+      val dateTime = LocalDate.of(2019, 1, 1).asInstant
+      DateFormatter.formatDateWithShortPattern(dateTime) shouldBe "1 Jan 2019"
+    }
+  }
+
+  "formatDate" should {
+    "use long date format" in {
+      val dateTime = LocalDate.of(2019, 1, 1).asInstant
+      DateFormatter.formatDate(dateTime) shouldBe "1 January 2019"
+    }
+  }
+
+  "formatTwoDigitDay" should {
+    "use long date format" in {
+      val dateTime = LocalDate.of(2019, 1, 1).asInstant
+      DateFormatter.formatTwoDigitDay(dateTime) shouldBe "01 January 2019"
+    }
+  }
+
+  "formatTwoDigitDayWithTime" should {
+    "use long date format" in {
+      val dateTime = LocalDateTime.of(2019, 1, 1, 2, 3).asInstant
+      DateFormatter.formatTwoDigitDayWithTime(dateTime) shouldBe "01 January 2019 02:03"
+    }
+  }
+}
