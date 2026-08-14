@@ -6,7 +6,7 @@ import uk.gov.hmrc.SbtAutoBuildPlugin
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 import bloop.integrations.sbt.BloopDefaults
 
-val appName = "api-platform-common-domain"
+val libName = "api-platform-common-domain"
 
 val scala2_13 = "2.13.18"
 val scala3 = "3.3.7"
@@ -54,11 +54,11 @@ lazy val library = (project in file("."))
     apiPlatformCommonDomain, apiPlatformCommonDomainFixtures, apiPlatformCommonDomainTest
   )
 
-lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("api-platform-common-domain"))
+lazy val apiPlatformCommonDomain = Project(s"$libName", file(s"$libName"))
   .settings(
     commonSettings,
     crossScalaVersions := Seq(scala3, scala2_13),
-    libraryDependencies ++= LibraryDependencies.commonDomain(scalaVersion.value),
+    libraryDependencies ++= LibraryDependencies.domain,
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
     Compile / unmanagedSourceDirectories += (
@@ -70,25 +70,25 @@ lazy val apiPlatformCommonDomain = Project("api-platform-common-domain", file("a
   .disablePlugins(JUnitXmlReportPlugin)
 
 
-lazy val apiPlatformCommonDomainFixtures = Project("api-platform-common-domain-fixtures", file("api-platform-common-domain-fixtures"))
+lazy val apiPlatformCommonDomainFixtures = Project(s"$libName-fixtures", file(s"$libName-fixtures"))
   .dependsOn(
-    apiPlatformCommonDomain % "compile"
+    apiPlatformCommonDomain,
   )
   .settings(
     commonSettings,
     crossScalaVersions := Seq(scala3, scala2_13),
-    libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
+    libraryDependencies ++= LibraryDependencies.fixtures,
     ScoverageKeys.coverageEnabled := false,
     Compile / unmanagedSourceDirectories += (
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-2.13"
-        case _           => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-3"
+        case Some((2,_)) => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-3"
       })
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
 
-lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test", file("api-platform-common-domain-test"))
+lazy val apiPlatformCommonDomainTest = Project(s"$libName-test", file(s"$libName-test"))
   .dependsOn(
     apiPlatformCommonDomain,
     apiPlatformCommonDomainFixtures
@@ -97,7 +97,7 @@ lazy val apiPlatformCommonDomainTest = Project("api-platform-common-domain-test"
     commonSettings,
     crossScalaVersions := Seq(scala3, scala2_13),
     publish / skip := true,
-    libraryDependencies ++= LibraryDependencies.root(scalaVersion.value),
+    libraryDependencies ++= LibraryDependencies.tests,
     ScoverageSettings(),
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-eT"),
     Test / unmanagedSourceDirectories ++= (
