@@ -5,12 +5,12 @@ object LibraryDependencies {
   lazy val domain =
     compileDependencies
 
-  lazy val fixtures = Seq.empty[ModuleID]
+  lazy val fixtures =
+    commonTestDependencies
   
   lazy val tests =
     compileDependencies ++
-    commonTestDependencies
-
+    commonTestDependencies.map(_ % "test")
 
   private val compileDependencies = Seq(
     "org.playframework"       %% "play-json"                      % "3.0.6",
@@ -22,5 +22,5 @@ object LibraryDependencies {
     "com.vladsch.flexmark"     % "flexmark-all"                   % "0.64.8",
     "org.scalatest"           %% "scalatest"                      % "3.2.19",
     "org.mockito"             %% "mockito-scala-scalatest"        % "2.2.1"
-  ).map(_ % "test")
+  )
 }

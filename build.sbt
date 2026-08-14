@@ -81,8 +81,8 @@ lazy val apiPlatformCommonDomainFixtures = Project(s"$libName-fixtures", file(s"
     ScoverageKeys.coverageEnabled := false,
     Compile / unmanagedSourceDirectories += (
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2,_)) => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-2.13"
-        case _           => baseDirectory.value / ".." / "common" / "src" / "main" / "scala-3"
+        case Some((2,_)) => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-2.13"
+        case _           => baseDirectory.value / ".." / "test-common" / "src" / "main" / "scala-3"
       })
   )
   .disablePlugins(JUnitXmlReportPlugin)
