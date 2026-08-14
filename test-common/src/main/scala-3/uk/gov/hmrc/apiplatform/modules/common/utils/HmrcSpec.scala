@@ -16,8 +16,9 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.utils
 
+import org.mockito.{ArgumentMatchersSugar, MockitoSugar}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{EitherValues, Inside, OptionValues}
 
-abstract class HmrcSpec extends AnyWordSpec with Matchers with OptionValues with EitherValues with Inside
+abstract class HmrcSpec extends AnyWordSpec with Matchers with OptionValues with EitherValues with Inside with MockitoSugar with ArgumentMatchersSugar
